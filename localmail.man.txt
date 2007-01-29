@@ -4,10 +4,11 @@ NAME
   
 DESCRIPTION
 
-  This plugins lets you declare a list of your users as allowed for internal mail only.
+  This plugins lets you declare a list of your users as allowed for internal 
+  mail only.
   
-  That means that when they try to send a message to an address outside of your domains,
-  it will fail. They still can receive external mail, though.
+  That means that when they try to send a message to an address outside of 
+  your domains, it will fail. They still can receive external mail, though.
   
   In fact, they can probably send email too, if they put their minds to it.
   
@@ -15,7 +16,8 @@ DESCRIPTION
 	  
   * Steal another user's password
   
-  * Send directly bypassing your relay (so, block port 25 outgoing at the firewall)
+  * Send directly bypassing your relay (so, block port 25 outgoing at the 
+    firewall)
   
   * Send directly via MSA protocol (so, block port 587, too)
   
@@ -26,8 +28,9 @@ DESCRIPTION
     
   Really, this plugin gives you just a false sense of security.
   
-  How it works? It will check your SMTPAUTHUSER against a list stored in /var/qmail/control/localonly
-  and then, if the recipient domain is not in your rcpthosts, it will reject the recipient.
+  How it works? It will check your SMTPAUTHUSER against a list stored in 
+  /var/qmail/control/localonly and then, if the recipient domain is not in your 
+  rcpthosts, it will reject the recipient.
   
   You should use this plugin only on the RCPT command.
 
@@ -60,8 +63,8 @@ LOGGING
 
 ERROR MESSAGES
 
-  If the plugin decides the recipient is remote and the sender is local-only, it will give
-  this error message:
+  If the plugin decides the recipient is remote and the sender is local-only, 
+  it will give this error message:
 
     550 You are only allowed to send to local addresses.
 
