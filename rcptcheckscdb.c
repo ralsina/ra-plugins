@@ -74,7 +74,7 @@ main ()
   int iswhitelisted = 0;
   if (ctrlfname->slen != 0)
     {
-      iswhitelisted = lineinfile (domain, ctrlfname);
+      iswhitelisted = lineincdb (domain, ctrlfname);
       if (iswhitelisted == -1)
         {
           // Can't open whitelist file.
@@ -122,7 +122,7 @@ main ()
   int valid = 1;
   if (islocal == 1)
     {
-      valid = lineinfile (smtprcptto, addrfname);
+      valid = lineincdb (smtprcptto, addrfname);
       if (valid == -1)
         {
           // eror opening file, can't do anything,
