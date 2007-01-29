@@ -235,9 +235,9 @@ INSTALL (TARGETS rcptchecksfile DESTINATION ${QMAIL_PLUGIN_DIR})
 ####################################################################
 
 IF (LIB_CDB)
-  ADD_EXECUTABLE (rcptcheckscdb rcptcheckscdb.c utils.c 
+  ADD_EXECUTABLE (rcptcheckscdb rcptcheckscdb.c utils.c cdbutils.c
                   ${BSTRLIB_SRCS})
-    TARGET_LINK_LIBRARIES (rcptcheckscdb ${LIB_CDB})
+  TARGET_LINK_LIBRARIES (rcptcheckscdb ${LIB_CDB})
   INSTALL (TARGETS rcptcheckscdb DESTINATION ${QMAIL_PLUGIN_DIR})
 ENDIF (LIB_CDB)
 
