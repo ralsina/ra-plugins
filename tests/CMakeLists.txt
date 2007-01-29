@@ -9,5 +9,8 @@ TARGET_LINK_LIBRARIES (test_cdb ${LIB_CDB} ${LIB_CHECK})
 
 ENDIF (LIB_CDB)
 
+ADD_EXECUTABLE ( test_utils test_utils.c ../utils.c ../bstrlib.c )
+TARGET_LINK_LIBRARIES (test_utils ${LIB_CHECK})
+
 
 ENDIF (LIB_CHECK)
