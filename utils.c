@@ -39,7 +39,7 @@ envtostr (char *vname)
 int
 lineinfile (bstring data, bstring fname)
 {
-  int retval = 1;
+  int retval = 0;
   FILE *f = fopen (fname->data, "r");
   if (!f)
     {
