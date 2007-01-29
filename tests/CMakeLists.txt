@@ -1,0 +1,13 @@
+PROJECT (tests)
+FIND_LIBRARY (LIB_CHECK check)
+
+IF (LIB_CHECK)
+
+IF (LIB_CDB)
+  ADD_EXECUTABLE ( test_cdb test_cdb.c )
+  TARGET_LINK_LIBRARIES (test_cdb ${LIB_CDB} ${LIB_CHECK})
+
+ENDIF (LIB_CDB)
+
+
+ENDIF (LIB_CHECK)

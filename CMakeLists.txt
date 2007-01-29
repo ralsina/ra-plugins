@@ -76,6 +76,7 @@ ENDFOREACH ( MANSRC ${MANSOURCES} )
 
 ADD_SUBDIRECTORY( djbdns )
 ADD_SUBDIRECTORY( smtp )
+ADD_SUBDIRECTORY( tests )
 
 ####################################################################
 ## The Better String Library
@@ -233,10 +234,12 @@ INSTALL (TARGETS rcptchecksfile DESTINATION ${QMAIL_PLUGIN_DIR})
 ## requires tinycdb
 ####################################################################
 
-ADD_EXECUTABLE (rcptcheckscdb rcptcheckscdb.c utils.c 
-                ${BSTRLIB_SRCS})
-  TARGET_LINK_LIBRARIES (rcptcheckscdb ${LIB_CDB})
-INSTALL (TARGETS rcptcheckscdb DESTINATION ${QMAIL_PLUGIN_DIR})
+IF (LIB_CDB)
+  ADD_EXECUTABLE (rcptcheckscdb rcptcheckscdb.c utils.c 
+                  ${BSTRLIB_SRCS})
+    TARGET_LINK_LIBRARIES (rcptcheckscdb ${LIB_CDB})
+  INSTALL (TARGETS rcptcheckscdb DESTINATION ${QMAIL_PLUGIN_DIR})
+ENDIF (LIB_CDB)
 
 ###################################################################
 ## rcptchecks plugin
