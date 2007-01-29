@@ -1,0 +1,81 @@
+CHANGELOG for the RA Plugin collection
+======================================
+
+* 2006-08-10 version 0.2.3
+
+  + Added relevant qmrtg-based scripts to generate useful reports
+    for some plugins. You need qmrtg for these to work: 
+    http://dev.publicshout.org/qmrtg/
+
+  + Made it mostly work with tcc (Tiny C Compiler), some linking
+    problems remain for some plugins.
+
+  + Switched to CMake as a build system
+  
+  + New plugin rcptchecksfile (alpha quality)
+
+  + New plugin senderchecks (alpha quality)
+
+  + New plugin senderchecksfile (alpha quality)
+
+  + Changed behaviour of rblchecks and hardcoderbl. Now they close the
+    connection if the IP is in RBL.
+    
+  + Changed behaviour of rblchecks and hardcoderbl: if the user is authenticated,
+    they just exit, instead of giving an "A" command. This way they now do **NOT**
+    disable other plugins.
+
+  + Added support for .qmail files inside vpopmail accounts for rcptchecks
+    (patch by Miroslaw Lach)
+
+  + Fixed case-sensitive comparison bug in rcptchecks.
+
+  + Replaced chkuser2 with rcptchecks in rcptchecks' logs (cosmetic).
+
+  + Added domain whitelist to rcptchecks.
+  
+  + Reorganized all the code in rcptchecks and similar plugins
+
+  + Fixed possibly harmless bug in mfdnscheck where it **may** have been
+    rejecting permanently on DNS failure.
+
+  + mfdnschecks now uses libdjbdns
+
+  + Included copy of libdjbdns, will not use libresolv anymore.
+
+  + Documentation fixes
+
+  + Switched to latest bstrlib (version 07222006)
+
+  + Fixed case-sensitive comparison bug in localmail.
+
+  + Refactored common code into utils.c
+  
+  + Cleanup of logging code
+
+  + Fixed bug in ipthrottle: accept mail if can't connect to relayd.
+
+  + Changed order of tests in ipthrottle.
+
+  + Changed order of tests and reorganized code in localmail
+
+* 2006-05-11 version 0.2.2
+
+  + Fixed stupid bug in ipthrottle plugin (was sending a debug message 
+    to the client)
+
+* 2006-04-21 version 0.2.1
+
+  + Fixed Makefile, maybe it now builds with older gcc.
+
+* 2006-04-08 version 0.2
+
+  + Fixed rcptchecks to detect vpopmail domains correctly
+
+  + Spelling errors pointed by Pawel Foremski
+
+  + Small documentation fixes
+
+* Version 0.1
+
+  + Original non-release ;-)

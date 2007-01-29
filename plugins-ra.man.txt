@@ -1,0 +1,45 @@
+NAME
+
+  plugins-ra - A collection of qmail-spp plugins
+  
+DESCRIPTION
+
+  This package provides several plugins meant to be used with a qmail patched using qmail-spp 
+  (http://qmail-spp.sf.net).
+
+  They cover diverse areas, and are meant to be written according to the following principles:
+	
+  * Good performance
+
+  They are written whenever possible in C, and try to be short and direct.
+
+  * Good logging
+
+  They should inform the user of what they do. No email should ever be rejected without logging
+  **something**. Also, all plugins logs include the PID of the qmail-smtpd process, so you can
+  easily group all events of a connection.
+
+  * Security
+
+  Since writing in C exposes oneself to the dangers of memory corruption, I have tried to use,
+  whenever it makes sense, the Better String Library, to avoid problems. While this makes the 
+  plugins larger, it also makes me feel more comfortable.
+
+  Also, for most plugins, it should be possible to run them as a very unprivileged user
+  or in a chroot jail. This is not yet implemented, but it is worth thinking.
+  
+SEE ALSO
+	  
+  authchecks(8),hardcoderbl(8),localmail(8),msa(8),rblchecks(8),rcptchecksfile(8),senderchecksfile(8),
+  tarpit(8),authlogger(8),ipthrottle(8),mfdnschecks(8),rcptchecks(8),senderchecks(8),spfchecks(8),
+	  
+  Homepage: http://ralsina.blogsite.org/stories/39.html
+
+COPYRIGHT
+  Copyright © 2006 Roberto Alsina <ralsina@kde.org>
+  This is free software; see the source for copying conditions. There is
+  NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR
+  PURPOSE.
+
+  Some plugins may have other authors, see their man pages and sources
+  for information regarding each one.

@@ -1,0 +1,101 @@
+NAME
+
+  checkback
+  
+DESCRIPTION
+
+  Checkback is inspired by milter-sender (http://www.snertsoft.com/sendmail/milter-sender/)
+  
+  The main idea is that you don't accept mail from senders who are not willing to accept
+  mail from you. To do that, this plugin attempts to send mail to the sender's address.
+  
+  It stops before actually sending, so it will not cause bounces or extra mail, but it will 
+  connect to another server, so it is not free: it will add network load and server load.
+  
+  In some cases, such as when you are on a dynamic IP address and you usually forward your
+  mail through another server, enabling this plugin will have terrible effects for you.
+  
+  When the check is successful, it will cache the sender's address for a configurable amount
+  of time.
+  
+  Periodically you should run the checkbackpurge tool, or your cache will grow forever.
+  
+  This plugin is new, so consider it alpha quality at best.
+  So, use with great care!
+ 
+REQUIREMENTS
+
+  This plugin is by far the most complex I have written yet, and it does some rather
+  involved things. Since I am a chicken, I delegated all I could into libraries
+  written by Some Else (TM). The bad side is, that means it requires a lot of things.
+
+  Since this needs to contact a remote SMTP server, it requires libSMTP 
+  (http://libsmtp.berlios.de/) to actually handle all the difficult stuff.
+ 
+  For the same reason, since it needs to do DNS lookups, I have used the aDNS library
+  (http://www.chiark.greenend.org.uk/~ian/adns/).
+ 
+  For the persistent cache mechanism, you need TDB (http://sourceforge.net/projects/tdb/) 
+  
+  You can whitelist domains and addresses. For those, no check will be performed.
+  Usually, it should be a good idea to whitelist your own domains.
+ 
+  It will add (at most) a few extra DNS lookups and an outgoing SMTP conection for
+  each incoming mail. If the cache is functional, it should be less.
+
+CONFIGURATION
+
+  You can whitelist a domain by adding it in /var/qmail/control/cbwldom
+  
+  As of August 2006, you should whitelist yahoo, because it accepts messages
+  for any address anyway. Probably yahoo.com and your local yahoo, too.
+
+  You can whitelist a specific email address by adding it in /var/qmail/control/cbwladdr
+
+  You can configure the cache database by setting the CHECKBACK_CACHE environment
+  variable. The default is /var/qmail/control/checkbackcache.tdb .
+  
+  Make sure the user under which the plugin runs can modify that file.
+
+  You can configure for how long to cache a successful check using the CHECKBACK_CACHETIME
+  environment variable. This takes a value in seconds.
+  
+  For example, if you set CHECKBACK_CACHETIME=86400, successful checks will be cached for 
+  a day. That's the default, too.
+  
+  The exact same environment variables control the cache's purging using checkbackpurge.
+  
+  So, for example, if you want to lose all the entries older than 2 hours on 
+  /etc/checkback.tdb, you run it like this:
+  
+    CHECKBACK_CACHETIME=7200 CHECKBACK_CACHE=/etc/checkback.tdb checkbackpurge
+    
+  You should get something like
+  
+  checkbackpurge: pid 3267 - Traversed 7654 items, deleted 3244 items
+
+LOGGING
+
+  It will add a log entry for every message, explaining what heppened, or any error 
+  conditions that arose.
+  
+  For this plugin this is specially important because it CAN make you lose legitimate
+  messages. In fact, it probably WILL do that.
+
+ERROR MESSAGES
+
+BUGS
+
+  No IPv6 support.
+
+SEE ALSO
+
+  plugins-ra(8)
+
+COPYRIGHT
+
+  Copyright © 2006 Roberto Alsina <ralsina@kde.org>
+
+  This is free software; see the source for copying conditions. There is
+  NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+

@@ -1,0 +1,4 @@
+Linux 2.6.9-34.0.2.EL i686
+iopause.h:/* sysdep: +poll */
+select.h:/* sysdep: +sysselect */
+uint64.h:/* sysdep: -ulong64 */

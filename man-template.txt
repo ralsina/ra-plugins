@@ -1,0 +1,29 @@
+NAME
+
+  
+DESCRIPTION
+
+ 
+REQUIREMENTS
+
+ 
+CONFIGURATION
+
+
+LOGGING
+
+
+ERROR MESSAGES
+
+
+SEE ALSO
+
+  plugins-ra(8)
+
+COPYRIGHT
+
+  Copyright © 2006 Roberto Alsina <ralsina@kde.org>
+
+  This is free software; see the source for copying conditions. There is
+  NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
