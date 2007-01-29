@@ -66,7 +66,7 @@ lineinfile (bstring data, bstring fname)
           retval = 1;
           break;
         }
-      bdestroy(line);
+      bdestroy (line);
     }
   fclose (f);
   return retval;

@@ -84,7 +84,7 @@ isAlias (bstring username, bstring domain)
     {
       return 0;
     }
-    bdestroy (dest);
+  bdestroy (dest);
   return 1;
 }
 

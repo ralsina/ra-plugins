@@ -50,8 +50,7 @@ main (int argc, char *argv[])
   //If authenticated, don't check at all
   if (envtostr ("SMTPAUTHUSER"))
     {
-      _log (bfromcstr
-            ("No checks performed, because user is authenticated"));
+      _log (bfromcstr ("No checks performed, because user is authenticated"));
       exit (0);
     }
   if (check_rbl (addr, "bl.spamcop.net"))

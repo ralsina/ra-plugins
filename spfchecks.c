@@ -36,7 +36,7 @@
 int
 main ()
 {
-  pluginname=bfromcstr("spfchecks");
+  pluginname = bfromcstr ("spfchecks");
 
   SPF_server_t *spf_server = NULL;
   SPF_request_t *spf_request = NULL;
@@ -52,8 +52,7 @@ main ()
   //If authenticated, don't check at all
   if (envtostr ("SMTPAUTHUSER"))
     {
-      _log (bfromcstr
-            ("No checks performed, because user is authenticated"));
+      _log (bfromcstr ("No checks performed, because user is authenticated"));
       exit (0);
     }
 
@@ -76,7 +75,8 @@ main ()
 
   int bouncelevel = envtoint ("BOUNCELEVEL", -1);
 
-  if ( (! opt_ip) || opt_ip->slen == 0 || (opt_helo->slen == 0 && opt_sender->slen == 0))
+  if ((!opt_ip) || opt_ip->slen == 0
+      || (opt_helo->slen == 0 && opt_sender->slen == 0))
     {
       _log (bfromcstr ("error, missing information."));
       exit (0);

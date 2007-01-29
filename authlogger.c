@@ -23,7 +23,7 @@
 int
 main ()
 {
-  pluginname=bfromcstr("authlogger");
+  pluginname = bfromcstr ("authlogger");
   bstring authuser = envtostr ("SMTPAUTHUSER");
   if (authuser && authuser->slen > 0)
     {

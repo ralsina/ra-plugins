@@ -25,17 +25,17 @@ int
 main ()
 {
   pluginname = bfromcstr ("senderchecks");
-  
+
   bstring ctrlfname = envtostr ("SENDERCHK_WLFILE");
   bstring smtpmailfrom = envtostr ("SMTPMAILFROM");
 
   // Empty sender is OK
   if (smtpmailfrom->slen == 0)
-  {
-    _log (bfromcstr ("Accepted empty sender"));
-    exit (0);
-  }
-  
+    {
+      _log (bfromcstr ("Accepted empty sender"));
+      exit (0);
+    }
+
   struct bstrList *pieces = bsplit (smtpmailfrom, '@');
   if (pieces->qty != 2)
     {
@@ -64,41 +64,41 @@ main ()
                          ctrlfname->data));
           iswhitelisted = 0;
         }
-        else if (iswhitelisted)            // No checks necessary
+      else if (iswhitelisted)   // No checks necessary
         {
           _log (bformat ("Whitelisted sender (%s@%s)",
-                username->data, domain->data));
+                         username->data, domain->data));
           exit (0);
         }
- 
+
     }
 
-  if ( 1 == isDomainVirtual (domain))
+  if (1 == isDomainVirtual (domain))
     {
       // Since it is virtual here, check if the user exists.
       // Of course, it can exist in different ways  
 
       // Does it exist as a regular vpopmail user?
-      if ( isUser (username,domain) || 
-           isSubAddress (username, domain)||
-           isAlias (username,domain))
+      if (isUser (username, domain) ||
+          isSubAddress (username, domain) || isAlias (username, domain))
         {
-          _log (bformat ("Accepted sender (%s@%s)", username->data, domain->data));
+          _log (bformat
+                ("Accepted sender (%s@%s)", username->data, domain->data));
           exit (0);
         }
-        else
+      else
         {
           //It's not anoything we know, it plain doesn't exist
           printf
-              ("E511 sorry, no mailbox here by that name (#5.1.1 - senderchecks)\n");
+            ("E511 sorry, no mailbox here by that name (#5.1.1 - senderchecks)\n");
           _log (bformat ("511 sorry, no mailbox here by that name (%s@%s)",
-                username->data, domain->data));
+                         username->data, domain->data));
           exit (0);
         }
     }
   else
-  {
-    _log (bformat ("Accepting non-local sender (%s)",smtpmailfrom));
-    exit (0);
-  }
+    {
+      _log (bformat ("Accepting non-local sender (%s)", smtpmailfrom));
+      exit (0);
+    }
 }

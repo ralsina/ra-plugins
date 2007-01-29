@@ -27,25 +27,25 @@
 int
 main ()
 {
-  
-  pluginname=bfromcstr("tarpit");
-  
+
+  pluginname = bfromcstr ("tarpit");
+
   int tc, rc;
 
-  tc = envtoint ("TARPITCOUNT",50);
-  rc = envtoint ("SMTPRCPTCOUNTALL",-1);
-  
-  if (rc==-1)
-  {
-    _log(bfromcstr("can't get number of envelope recipients"));
-    exit (0);
-  }
-  
+  tc = envtoint ("TARPITCOUNT", 50);
+  rc = envtoint ("SMTPRCPTCOUNTALL", -1);
+
+  if (rc == -1)
+    {
+      _log (bfromcstr ("can't get number of envelope recipients"));
+      exit (0);
+    }
+
   if (rc < tc)
     exit (0);                   /* under limit */
   if (rc == tc)
-    _log(bfromcstr("started tarpitting"));
-  
+    _log (bfromcstr ("started tarpitting"));
+
   bstring tdelay = envtostr ("TARPITDELAY");
   if (!tdelay)
     tdelay = bfromcstr ("2");

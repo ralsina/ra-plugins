@@ -28,16 +28,16 @@
 
 // Open cache DB file, do initialization, etc.
 
-TDB_CONTEXT *db=NULL;
-int cachetime=86400;
-int counter=0;
+TDB_CONTEXT *db = NULL;
+int cachetime = 86400;
+int counter = 0;
 
 void
 init_cache ()
 {
   bstring cfname = envtostr ("CHECKBACK_CACHE");
-  pluginname=bfromcstr("checkbackpurge");
-  
+  pluginname = bfromcstr ("checkbackpurge");
+
   if (!cfname)
     {
       cfname = bfromcstr ("/var/qmail/control/checkbackcache.tdb");
@@ -50,24 +50,26 @@ init_cache ()
     }
 }
 
-int traverse (TDB_CONTEXT *db,TDB_DATA key,TDB_DATA data,void *state)
+int
+traverse (TDB_CONTEXT * db, TDB_DATA key, TDB_DATA data, void *state)
 {
-  if (time(NULL)-(*((time_t *)data.dptr))>cachetime)
-  {
-    int r=tdb_delete(db,key);
-    if (r==-1)
+  if (time (NULL) - (*((time_t *) data.dptr)) > cachetime)
     {
-      _log (bfromcstr ("Error deleting item"));
+      int r = tdb_delete (db, key);
+      if (r == -1)
+        {
+          _log (bfromcstr ("Error deleting item"));
+        }
+      counter++;
     }
-    counter++;
-  }
 }
 
-int main ()
+int
+main ()
 {
-  cachetime=envtoint("CHECKBACK_CACHETIME",86400);
-  init_cache();
-  int c=tdb_traverse(db,traverse,NULL);
-  _log(bformat("Traversed %d items, deleted %d items\n",c,counter));
-  
+  cachetime = envtoint ("CHECKBACK_CACHETIME", 86400);
+  init_cache ();
+  int c = tdb_traverse (db, traverse, NULL);
+  _log (bformat ("Traversed %d items, deleted %d items\n", c, counter));
+
 }

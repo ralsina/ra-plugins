@@ -40,7 +40,7 @@ main ()
 
   bstring remoteip = envtostr ("TCPREMOTEIP");
 
-  if (!remoteip)      //Should not happen
+  if (!remoteip)                //Should not happen
     {
       _log (bfromcstr ("511 No IP address"));
       exit (0);

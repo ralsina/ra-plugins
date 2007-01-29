@@ -100,7 +100,7 @@ main ()
     }
   else if (r == 1)
     {
-      _log (bfromcstr("Whitelisted domain"));
+      _log (bfromcstr ("Whitelisted domain"));
       exit (0);
     }
 
@@ -115,7 +115,7 @@ main ()
     }
   else if (r == 1)
     {
-      _log (bfromcstr("Whitelisted address"));
+      _log (bfromcstr ("Whitelisted address"));
       exit (0);
     }
 

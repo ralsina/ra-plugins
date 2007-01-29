@@ -24,7 +24,7 @@ int
 main ()
 {
   pluginname = bfromcstr ("msa");
-  if (!envtostr("SMTPAUTHUSER"))
+  if (!envtostr ("SMTPAUTHUSER"))
     {
       printf ("E550 You should be authenticated\n");
       _log (bfromcstr ("Message rejected (no auth)."));

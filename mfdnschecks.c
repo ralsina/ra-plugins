@@ -32,11 +32,12 @@ void block_temporary (const bstring message);
 int
 main (void)
 {
-  pluginname=bfromcstr("mfdnschecks");
+  pluginname = bfromcstr ("mfdnschecks");
   bstring from = envtostr ("SMTPMAILFROM");
   if (!from)
     {
-      block_permanent (bfromcstr("no MAIL FROM envelope header has been sent."));
+      block_permanent (bfromcstr
+                       ("no MAIL FROM envelope header has been sent."));
     }
 
   // Empty SMTPMAILFROM happens on bounces. The original plugin had them blocked,
@@ -53,16 +54,18 @@ main (void)
 
   if (pieces->qty != 2)
     {
-      block_permanent (bformat ("invalid mail address in MAIL FROM envelope header: %s",
-                       from->data));
+      block_permanent (bformat
+                       ("invalid mail address in MAIL FROM envelope header: %s",
+                        from->data));
     }
   bstring username = pieces->entry[0];
   bstring domain = pieces->entry[1];
 
   if (domain->slen == 0 || username->slen == 0)
     {
-      block_permanent (bformat ("invalid mail address in MAIL FROM envelope header: %s",
-                       from->data));
+      block_permanent (bformat
+                       ("invalid mail address in MAIL FROM envelope header: %s",
+                        from->data));
     }
 
   /* make query */
@@ -77,17 +80,18 @@ main (void)
   if (dns_mx (&out, &fqdn) < 0 || out.len == 0) // No MX record, or error 
     {
       if ((errno == ECONNREFUSED) || (errno == EAGAIN))
-        block_temporary (bfromcstr("DNS temporary failure."));
+        block_temporary (bfromcstr ("DNS temporary failure."));
 
       // check for A record instead of MX record
       else if (dns_ip4 (&out, &fqdn) < 0 || out.len == 0)       // No A record, or error
         {
           if ((errno == ECONNREFUSED) || (errno == EAGAIN))
-            block_temporary (bfromcstr("DNS temporary failure."));
+            block_temporary (bfromcstr ("DNS temporary failure."));
           else
             {
-              block_permanent (bformat ("your envelope sender domain must exist: %s",
-                               domain->data));
+              block_permanent (bformat
+                               ("your envelope sender domain must exist: %s",
+                                domain->data));
             }
         }
     }
