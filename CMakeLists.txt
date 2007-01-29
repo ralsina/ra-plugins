@@ -25,6 +25,8 @@ FIND_LIBRARY(LIB_SPF2 spf2)
 
 FIND_LIBRARY(LIB_TDB tdb)
 
+FIND_LIBRARY(LIB_CDB cdb)
+
 FIND_LIBRARY(LIB_MYSQL mysqlclient PATHS /usr/lib/mysql)
 
 FIND_LIBRARY(LIB_VPOPMAIL vpopmail PATHS /home/vpopmail/lib)
@@ -225,6 +227,16 @@ ADD_DEPENDENCIES (mfdnschecks djbdns)
 ADD_EXECUTABLE (rcptchecksfile rcptchecksfile.c utils.c 
                 ${BSTRLIB_SRCS})
 INSTALL (TARGETS rcptchecksfile DESTINATION ${QMAIL_PLUGIN_DIR})
+
+####################################################################
+## rcptcheckscdb plugin
+## requires tinycdb
+####################################################################
+
+ADD_EXECUTABLE (rcptcheckscdb rcptcheckscdb.c utils.c 
+                ${BSTRLIB_SRCS})
+  TARGET_LINK_LIBRARIES (rcptcheckscdb ${LIB_CDB})
+INSTALL (TARGETS rcptcheckscdb DESTINATION ${QMAIL_PLUGIN_DIR})
 
 ###################################################################
 ## rcptchecks plugin
