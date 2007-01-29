@@ -2,3 +2,7 @@ plugins-ra is a collection of qmail-spp plugins.
 
 For details, see the included man pages, specially plugins-ra.
 
+To build it, run ./build.sh
+To install it, run ./install.sh as root
+
+
