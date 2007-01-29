@@ -38,6 +38,22 @@ FIND_PATH(VPOPMAIL_INCLUDE_DIR vpopmail.h /usr/include/
 INCLUDE (FindGTK)
 
 
+###################################################################
+## Test suite
+###################################################################
+
+ADD_CUSTOM_TARGET ( check )
+SET ( TESTDIR ../tests )
+
+FOREACH (TEST test_cdb )
+  ADD_CUSTOM_TARGET ( DO_${TEST} DEPENDS tests/test_cdb 
+  COMMAND TDIR=${TESTDIR} tests/test_cdb
+  )
+  ADD_DEPENDENCIES ( check DO_${TEST} )
+ENDFOREACH (TEST test_cdb )
+
+
+
 ####################################################################
 ## Targets for pre-distributuion
 ##
@@ -61,7 +77,7 @@ FOREACH ( MANSRC ${MANSOURCES} )
   ADD_CUSTOM_TARGET ( ${MANDST}_8 DEPENDS ${MANPTH}/${MANDST}.8_ 
     COMMAND cp ${MANPTH}/${MANDST}.8_ ${MANDST}.8
     COMMAND gzip -f ${MANDST}.8  )
-ADD_DEPENDENCIES ( manpages ${MANDST}_8 )
+  ADD_DEPENDENCIES ( manpages ${MANDST}_8 )
   
   ADD_CUSTOM_COMMAND(
     OUTPUT ${MANPTH}/${MANDST}.8_
@@ -263,3 +279,4 @@ FILE(GLOB MANPAGES *.8.gz)
 INSTALL (FILES ${MANPAGES} DESTINATION ${MAN_DIR} )
 
 INSTALL ( FILES COPYING CHANGELOG ${MANSOURCES} DESTINATION ${DOC_DIR} )
+

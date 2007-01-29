@@ -5,10 +5,13 @@
 #include <cdb.h>
 #include "../cdbutils.h"
 
+
+bstring testdir;
+
 START_TEST (test_cdb1)
 {
     /* unit test code */
-    bstring fname=bfromcstr("test_data.cdb");
+    bstring fname=bformat("%s/test_data.cdb",testdir->data);
     bstring addr=bfromcstr("JOE@whatever.org");
 
     fail_unless ( lineincdb (addr,fname) == 1 );
@@ -18,7 +21,7 @@ END_TEST
 
 START_TEST (test_cdb2)
 {
-    bstring fname=bfromcstr("test_data.cdb");
+    bstring fname=bformat("%s/test_data.cdb",testdir->data);
     bstring addr=bfromcstr("jane@whatever.org");
     fail_unless ( lineincdb (addr,fname) == 0 );
 }
@@ -26,7 +29,7 @@ END_TEST
 
 START_TEST (test_cdb3)
 {
-    bstring fname=bfromcstr("notexisting");
+    bstring fname=bformat("%s/notexisting",testdir->data);
     bstring addr=bfromcstr("JOE@whatever.org");
     fail_unless ( lineincdb (addr,fname) == -1 );
 }
@@ -49,6 +52,7 @@ Suite *cdb_suite(void)
 int
 main (void)
 {
+    testdir=bfromcstr(getenv("TDIR"));
     int number_failed;
     Suite *s=cdb_suite();
     SRunner *sr=srunner_create(s);
