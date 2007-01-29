@@ -42,6 +42,8 @@ DESCRIPTION
   is using tinycdb's cdb utility, like this:
   
   * Create a text file containing one address per line (userlist.txt).
+    Make absolutely sure that all data is in lowercase, or it will NOT
+    work.
   
   * Convert it to CDB: cdb -cum userlist.cdb userlist.txt
 

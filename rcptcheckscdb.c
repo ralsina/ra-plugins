@@ -41,7 +41,7 @@ main ()
   btolower (smtprcptto);
 
   struct bstrList *pieces = bsplit (smtprcptto, '@');
-  if (pieces->qty != 2)
+  if (!pieces || pieces->qty != 2)
     {
       printf ("E511 Invalid address (#5.1.1 - rcptchecksfile)\n");
       _log (bformat ("511 Invalid address (%s)", smtprcptto->data));
