@@ -44,6 +44,8 @@ The whitelist and userlist files should be CDB files. The simplest way to create
 is using tinycdb's cdb utility, like this:
 .IP \(bu 3
 Create a text file containing one address per line (userlist.txt).
+Make absolutely sure that all data is in lowercase, or it will NOT
+work.
 .IP \(bu 3
 Convert it to CDB: cdb \fB-cum\fP userlist.cdb userlist.txt
 .SH REQUIREMENTS
