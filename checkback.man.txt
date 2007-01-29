@@ -27,13 +27,11 @@ REQUIREMENTS
 
   This plugin is by far the most complex I have written yet, and it does some rather
   involved things. Since I am a chicken, I delegated all I could into libraries
-  written by Some Else (TM). The bad side is, that means it requires a lot of things.
+  written by SomeOne Else (TM). The bad side is, that means it requires a
+  lot of things.
 
   Since this needs to contact a remote SMTP server, it requires libSMTP 
   (http://libsmtp.berlios.de/) to actually handle all the difficult stuff.
- 
-  For the same reason, since it needs to do DNS lookups, I have used the aDNS library
-  (http://www.chiark.greenend.org.uk/~ian/adns/).
  
   For the persistent cache mechanism, you need TDB (http://sourceforge.net/projects/tdb/) 
   
