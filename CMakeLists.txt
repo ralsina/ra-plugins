@@ -45,12 +45,12 @@ INCLUDE (FindGTK)
 ADD_CUSTOM_TARGET ( check )
 SET ( TESTDIR ../tests )
 
-FOREACH (TEST test_cdb )
-  ADD_CUSTOM_TARGET ( DO_${TEST} DEPENDS tests/test_cdb 
-  COMMAND TDIR=${TESTDIR} tests/test_cdb
+FOREACH (TEST test_cdb test_utils)
+  ADD_CUSTOM_TARGET ( DO_${TEST} DEPENDS tests/${TEST}
+  COMMAND TDIR=${TESTDIR} tests/${TEST}
   )
   ADD_DEPENDENCIES ( check DO_${TEST} )
-ENDFOREACH (TEST test_cdb )
+ENDFOREACH (TEST test_cdb test_utils )
 
 
 
