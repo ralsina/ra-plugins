@@ -101,14 +101,6 @@ ADD_SUBDIRECTORY( tests )
 SET (BSTRLIB_SRCS bstrlib.c)
 
 ####################################################################
-## authchecks plugin
-## requires nothing
-####################################################################
-
-ADD_EXECUTABLE (authchecks authchecks.c utils.c ${BSTRLIB_SRCS})
-INSTALL (TARGETS authchecks DESTINATION ${QMAIL_PLUGIN_DIR})
-
-####################################################################
 ## authlogger plugin
 ## requires nothing
 ####################################################################
