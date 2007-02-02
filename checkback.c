@@ -68,24 +68,14 @@ main ()
     }
 
 
-  struct bstrList *pieces = bsplit (smtpmailfrom, '@');
-  if (pieces->qty != 2)
-    {
+  bstring username,domain;
+  if (0==checkaddr(smtpmailfrom,&username,&domain))
+  {
       buffer =
         bformat ("invalid mail address in MAIL FROM envelope header: %s",
                  smtpmailfrom->data);
       block_permanent (buffer->data);
-    }
-  bstring username = pieces->entry[0];
-  bstring domain = pieces->entry[1];
-
-  if (domain->slen == 0 || username->slen == 0)
-    {
-      buffer =
-        bformat ("invalid mail address in MAIL FROM envelope header: %s",
-                 smtpmailfrom->data);
-      block_permanent (buffer->data);
-    }
+  }
 
   _log (bformat ("Checking sender (%s)", smtpmailfrom->data));
 
