@@ -76,7 +76,7 @@ main ()
   int bouncelevel = envtoint ("BOUNCELEVEL", -1);
 
   if ((!opt_ip) || opt_ip->slen == 0
-      || (opt_helo->slen == 0 && opt_sender->slen == 0))
+      || ( ((!opt_helo) || opt_helo->slen == 0) && opt_sender->slen == 0))
     {
       _log (bfromcstr ("error, missing information."));
       exit (0);
