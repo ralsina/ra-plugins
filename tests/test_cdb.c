@@ -51,6 +51,11 @@ int
 main (void)
 {
   testdir = bfromcstr (getenv ("TDIR"));
+  if (!testdir)
+    {
+      testdir = bfromcstr (".");
+    }
+
   int number_failed;
   Suite *s = cdb_suite ();
   SRunner *sr = srunner_create (s);
