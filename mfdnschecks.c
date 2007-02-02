@@ -50,23 +50,14 @@ main (void)
   // If it is not empty, but has no @ or no domain part or no username part, 
   // we don't like it.
 
-  struct bstrList *pieces = bsplit (from, '@');
+  bstring username, domain;
 
-  if (pieces->qty != 2)
-    {
+  if (0==checkaddr(from,&username,&domain))
+  {
       block_permanent (bformat
                        ("invalid mail address in MAIL FROM envelope header: %s",
                         from->data));
-    }
-  bstring username = pieces->entry[0];
-  bstring domain = pieces->entry[1];
-
-  if (domain->slen == 0 || username->slen == 0)
-    {
-      block_permanent (bformat
-                       ("invalid mail address in MAIL FROM envelope header: %s",
-                        from->data));
-    }
+  }
 
   /* make query */
 
