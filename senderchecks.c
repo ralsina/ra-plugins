@@ -36,15 +36,13 @@ main ()
       exit (0);
     }
 
-  struct bstrList *pieces = bsplit (smtpmailfrom, '@');
-  if (pieces->qty != 2)
+  bstring username, domain;
+  if (0 == checkaddr (smtpmailfrom, &username, &domain))
     {
       printf ("E501 Invalid address\n");
       _log (bformat ("501 Invalid address (%s)", smtpmailfrom->data));
       exit (0);
     }
-  bstring username = pieces->entry[0];
-  bstring domain = pieces->entry[1];
 
   /*******************************************************************/
   /* Domain whitelisting                                             */

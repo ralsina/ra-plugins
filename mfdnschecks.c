@@ -52,12 +52,12 @@ main (void)
 
   bstring username, domain;
 
-  if (0==checkaddr(from,&username,&domain))
-  {
+  if (0 == checkaddr (from, &username, &domain))
+    {
       block_permanent (bformat
                        ("invalid mail address in MAIL FROM envelope header: %s",
                         from->data));
-  }
+    }
 
   /* make query */
 

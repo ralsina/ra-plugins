@@ -68,14 +68,14 @@ main ()
     }
 
 
-  bstring username,domain;
-  if (0==checkaddr(smtpmailfrom,&username,&domain))
-  {
+  bstring username, domain;
+  if (0 == checkaddr (smtpmailfrom, &username, &domain))
+    {
       buffer =
         bformat ("invalid mail address in MAIL FROM envelope header: %s",
                  smtpmailfrom->data);
       block_permanent (buffer->data);
-  }
+    }
 
   _log (bformat ("Checking sender (%s)", smtpmailfrom->data));
 
