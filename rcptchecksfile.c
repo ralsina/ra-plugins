@@ -39,29 +39,21 @@ main ()
   bstring smtprcptto = envtostr ("SMTPRCPTTO");
   btolower (smtprcptto);
 
-  struct bstrList *pieces = bsplit (smtprcptto, '@');
-  if (pieces->qty != 2)
-    {
-      printf ("E511 Invalid address (#5.1.1 - rcptchecksfile)\n");
-      _log (bformat ("511 Invalid address (%s)", smtprcptto->data));
-      exit (0);
-    }
-  bstring username = pieces->entry[0];
-  bstring domain = pieces->entry[1];
+  bstring username, domain;
+  if (0 == checkaddr (smtprcptto, &username, &domain))
 
+    // If there are more than $CHKUSER_RCPTLIMIT RCPTs accepted
+    // fail with error
 
-  // If there are more than $CHKUSER_RCPTLIMIT RCPTs accepted
-  // fail with error
-
-  if (chkuser_rcptlimit <= smtprcptcount)
-    {
-      printf
-        ("E571 sorry, reached maximum number of recipients for one session (#5.7.1 - rcptchecksfile)\n");
-      _log (bformat
-            ("571 sorry, reached maximum number of recipients for one session (%d of %d - %s)",
-             smtprcptcount, chkuser_rcptlimit, smtprcptto->data));
-      exit (0);
-    }
+    if (chkuser_rcptlimit <= smtprcptcount)
+      {
+        printf
+          ("E571 sorry, reached maximum number of recipients for one session (#5.7.1 - rcptchecksfile)\n");
+        _log (bformat
+              ("571 sorry, reached maximum number of recipients for one session (%d of %d - %s)",
+               smtprcptcount, chkuser_rcptlimit, smtprcptto->data));
+        exit (0);
+      }
 
 
   /*******************************************************************/
