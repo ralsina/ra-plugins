@@ -23,35 +23,35 @@
   
 #if defined(MEMORY_DEBUG) || defined(BSTRLIB_MEMORY_DEBUG)
 #include "memdbg.h"
-#endif  /*  */
+#endif /*  */
   
 #if defined(BSTRLIB_BACKDOOR_INCLUDE)
 #include BSTRLIB_BACKDOOR_INCLUDE
-#endif  /*  */
+#endif /*  */
   
 #ifndef bstr__alloc
 #define bstr__alloc(x) malloc (x)
-#endif  /*  */
+#endif /*  */
   
 #ifndef bstr__free
 #define bstr__free(p) free (p)
-#endif  /*  */
+#endif /*  */
   
 #ifndef bstr__realloc
 #define bstr__realloc(p,x) realloc ((p), (x))
-#endif  /*  */
+#endif /*  */
   
 #ifndef bstr__memcpy
 #define bstr__memcpy(d,s,l) memcpy ((d), (s), (l))
-#endif  /*  */
+#endif /*  */
   
 #ifndef bstr__memmove
 #define bstr__memmove(d,s,l) memmove ((d), (s), (l))
-#endif  /*  */
+#endif /*  */
   
 #ifndef bstr__memset
 #define bstr__memset(d,c,l) memset ((d), (c), (l))
-#endif  /*  */
+#endif /*  */
   
 /* Just a length safe wrapper for memmove. */ 
   
@@ -81,8 +81,8 @@ snapUpSize (int i)
 #if (UINT_MAX > 0xffffffffl)
         j |= (j >> 32);         /* For 64 bit int systems */
       
-#endif  /*  */
-#endif  /*  */
+#endif /*  */
+#endif /*  */
         /* Least power of two greater than i */ 
         j++;
       if ((int) j >= i)
@@ -1472,7 +1472,7 @@ invertCharField (struct charField *cf)
   for (i = 0; i < ((1 << CHAR_BIT) / LONG_BITS_QTY); i++)
     cf->content[i] = (unsigned char) ~cf->content[i];
 } 
-#else   /*  */
+#else /*  */
   struct charField
 {
   unsigned char content[(1 << CHAR_BIT)];
@@ -1501,7 +1501,7 @@ invertCharField (struct charField *cf)
 }
 
 
-#endif  /*  */
+#endif /*  */
   
 /* Inner engine for binchr */ 
   static int
@@ -3007,9 +3007,9 @@ bsplitstrcb (const bstring str, const bstring splitStr, int pos,
 
 #ifdef offsetof
 #define BLE_SZ (offsetof (struct bstrList, entry))
-#else   /*  */
+#else /*  */
 #define BLE_SZ (sizeof (struct bstrList))
-#endif  /*  */
+#endif /*  */
   struct genBstrList
 {
   bstring b;
@@ -3127,18 +3127,18 @@ bsplits (const bstring str, const bstring splitStr)
 # ifndef BSTRLIB_NOVSNP
 #  define BSTRLIB_NOVSNP
 # endif
-#endif  /*  */
+#endif /*  */
   
 /* Give WATCOM C/C++, MSVC some latitude for their non-support of vsnprintf */ 
 #if defined(__WATCOMC__) || defined(_MSC_VER)
 #define exvsnprintf(r,b,n,f,a) {r = _vsnprintf (b,n,f,a);}
-#else   /*  */
+#else /*  */
 #ifdef BSTRLIB_NOVSNP
 /* This is just a hack.  If you are using a system without a vsnprintf, it is 
    not recommended that bformat be used at all. */ 
 #define exvsnprintf(r,b,n,f,a) {vsprintf (b,f,a); r = -1;}
 #define START_VSNBUFF (256)
-#else   /*  */
+#else /*  */
   
 #ifdef __GNUC__
 /* Something is making gcc complain about this prototype not being here, so 
@@ -3146,17 +3146,17 @@ bsplits (const bstring str, const bstring splitStr)
 extern int vsnprintf (char *buf, size_t count, const char *format,
                       va_list arg);
 
-#endif  /*  */
+#endif /*  */
   
 #define exvsnprintf(r,b,n,f,a) {r = vsnprintf (b,n,f,a);}
-#endif  /*  */
-#endif  /*  */
+#endif /*  */
+#endif /*  */
   
 #if !defined (BSTRLIB_NOVSNP)
   
 #ifndef START_VSNBUFF
 #define START_VSNBUFF (16)
-#endif  /*  */
+#endif /*  */
   
 /* On IRIX vsnprintf returns n-1 when the operation would overflow the target 
    buffer, WATCOM and MSVC both return -1, while C99 requires that the 
@@ -3321,4 +3321,4 @@ bassignformat (bstring b, const char *fmt, ...)
 }
 
 
-#endif  /*  */
+#endif /*  */

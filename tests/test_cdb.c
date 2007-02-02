@@ -33,7 +33,8 @@ START_TEST (test_cdb3)
   bstring addr = bfromcstr ("JOE@whatever.org");
   fail_unless (lineincdb (addr, fname) == -1);
 }
-END_TEST Suite * cdb_suite (void)
+END_TEST Suite *
+cdb_suite (void)
 {
   Suite *s = suite_create ("CDB");
   TCase *cdb_core = tcase_create ("Core");

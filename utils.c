@@ -88,15 +88,22 @@ _log (bstring msg)
 }
 
 int
-checkaddr (bstring address, bstring user, bstring domain)
+checkaddr (bstring address, bstring * user, bstring * domain)
 {
   struct bstrList *pieces = bsplit (address, '@');
   if (pieces->qty != 2)
     {
       return 0;
     }
-  user = bstrcpy(pieces->entry[0]);
-  domain = bstrcpy(pieces->entry[1]);
-  bstrListDestroy(pieces);
-  return 0;
+  else if (pieces->entry[0] == 0 ||
+           pieces->entry[0]->slen == 0 ||
+           pieces->entry[1] == 0 || pieces->entry[1]->slen == 0)
+    {
+      return 0;
+    }
+
+  user[0] = bstrcpy (pieces->entry[0]);
+  domain[0] = bstrcpy (pieces->entry[1]);
+  bstrListDestroy (pieces);
+  return 1;
 }
