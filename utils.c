@@ -86,3 +86,17 @@ _log (bstring msg)
   fprintf (stderr, buffer->data);
   bdestroy (buffer);
 }
+
+int
+checkaddr (bstring address, bstring user, bstring domain)
+{
+  struct bstrList *pieces = bsplit (address, '@');
+  if (pieces->qty != 2)
+    {
+      return 0;
+    }
+  user = bstrcpy(pieces->entry[0]);
+  domain = bstrcpy(pieces->entry[1]);
+  bstrListDestroy(pieces);
+  return 0;
+}
