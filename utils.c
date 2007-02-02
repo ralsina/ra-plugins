@@ -83,7 +83,7 @@ _log (bstring msg)
     }
   bstring buffer =
     bformat ("%s: pid %d - %s\n", pluginname->data, getppid (), msg->data);
-  fprintf (stderr, buffer->data);
+  fprintf (stderr, "%s", buffer->data);
   bdestroy (buffer);
 }
 
