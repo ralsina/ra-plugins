@@ -58,16 +58,13 @@ main ()
     wrongrcptcount = 0;
 
   smtprcptto = envtostr ("SMTPRCPTTO");
-
-  struct bstrList *pieces = bsplit (smtprcptto, '@');
-  if (pieces->qty != 2)
-    {
+  bstring username,domain;
+  if (0==checkaddr(smtprcptto,&username,&domain))
+  {
       printf ("E511 Invalid address (#5.1.1 - rcptchecks)\n");
       _log (bformat ("511 Invalid address (%s)", smtprcptto->data));
       exit (0);
-    }
-  username = pieces->entry[0];
-  domain = pieces->entry[1];
+  }
 
   // Over $CHKUSER_WRONGRCPTLIMIT we don't care if it's valid or not, by policy
   // so we fail with error
