@@ -72,11 +72,15 @@ lineinfile (bstring data, bstring fname)
   return retval;
 }
 
-bstring pluginname;
+bstring pluginname = 0;
 
 void
 _log (bstring msg)
 {
+  if (!pluginname)
+    {
+      pluginname = bfromcstr ("");
+    }
   bstring buffer =
     bformat ("%s: pid %d - %s\n", pluginname->data, getppid (), msg->data);
   fprintf (stderr, buffer->data);
