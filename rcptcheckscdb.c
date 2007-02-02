@@ -40,16 +40,13 @@ main ()
   bstring smtprcptto = envtostr ("SMTPRCPTTO");
   btolower (smtprcptto);
 
-  struct bstrList *pieces = bsplit (smtprcptto, '@');
-  if (!pieces || pieces->qty != 2)
+  bstring username, domain;
+  if (0 == checkaddr (smtprcptto, &username, &domain))
     {
       printf ("E511 Invalid address (#5.1.1 - rcptchecksfile)\n");
       _log (bformat ("511 Invalid address (%s)", smtprcptto->data));
       exit (0);
     }
-  bstring username = pieces->entry[0];
-  bstring domain = pieces->entry[1];
-
 
   // If there are more than $CHKUSER_RCPTLIMIT RCPTs accepted
   // fail with error
