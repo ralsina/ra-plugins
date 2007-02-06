@@ -45,13 +45,19 @@ INCLUDE (FindGTK)
 ADD_CUSTOM_TARGET ( check )
 SET ( TESTDIR ../tests )
 
-FOREACH (TEST test_cdb test_utils)
+FOREACH (TEST test_utils)
   ADD_CUSTOM_TARGET ( DO_${TEST} DEPENDS tests/${TEST}
   COMMAND TDIR=${TESTDIR} tests/${TEST}
   )
   ADD_DEPENDENCIES ( check DO_${TEST} )
 ENDFOREACH (TEST test_cdb test_utils )
 
+IF (LIB_CDB)
+  ADD_CUSTOM_TARGET ( DO_test_cdb DEPENDS tests/test_cdb
+  COMMAND TDIR=${TESTDIR} tests/test_cdb
+  )
+  ADD_DEPENDENCIES ( check DO_test_cdb )
+ENDIF (LIB_CDB)
 
 
 ####################################################################
