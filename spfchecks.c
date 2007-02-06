@@ -165,10 +165,7 @@ main ()
    * the SPF check is.
    */
 
-  if (SPF_request_query_mailfrom (spf_request, &spf_response))
-    {
-      _log (bfromcstr ("error querying MAIL-FROM"));
-    }
+  SPF_request_query_mailfrom (spf_request, &spf_response);
 
   /*
    * If the sender MAIL FROM check failed, then for each SMTP RCPT TO
