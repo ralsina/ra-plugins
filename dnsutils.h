@@ -6,5 +6,7 @@
 #include "bstrlib.h"
 
 int checkrbl (bstring lookup_addr, const char *rbl);
+bstring
+describerbl (bstring lookup_addr, const char *rbl);
 
 #endif

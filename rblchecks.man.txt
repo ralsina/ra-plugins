@@ -52,6 +52,14 @@ ERROR MESSAGES
 	  
     541 Your IP (24.232.239.145) is blocked, more information at http://combined.njabl.org
 
+  Or, if the RBL you are using provides descriptions, like this:
+  
+    451 Your IP (72.72.64.242) is blocked. Reason: Dynamic/Residential 
+        IP range listed by NJABL dynablock - http://njabl.org/dynablock.html
+    
+    451 Your IP (72.72.64.242) is blocked. Reason: Blocked - 
+        see http://www.spamcop.net/bl.shtml?72.72.64.242
+
 SEE ALSO
 
   plugins-ra(8), hardcoderbl(8)

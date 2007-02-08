@@ -63,6 +63,15 @@ The sender will see error messages like the following:
 
 .fam T
 .fi
+Or, if the RBL you are using provides descriptions:
+.PP
+.nf
+.fam C
+    451 Your IP (72.72.64.242) is blocked. Reason: Dynamic/Residential 
+    IP range listed by NJABL dynablock - http://njabl.org/dynablock.html
+
+.fam T
+.fi
 .SH SEE ALSO
 
 \fBplugins-ra\fP(8), \fBhardcoderbl\fP(8)

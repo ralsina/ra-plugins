@@ -57,10 +57,18 @@ main (int argc, char *argv[])
       if (serv->slen == 0)
         continue;
       if (checkrbl (ip, serv->data))
-        {
+      {
+          bstring desc=describerbl(ip, serv->data);
+          if (!desc)
+          {
           printf
             ("R541 Your IP (%s) is blocked, more information at http://%s\n",
              ip->data, serv->data);
+          }
+          else
+          {
+              printf ("R451 Your IP (%s) is blocked. Reason: %s\n",ip->data,desc->data);
+          }
           _log (bformat ("541 Blocked by %s (%s)", serv->data, ip->data));
           exit (0);
         }
