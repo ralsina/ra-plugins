@@ -93,10 +93,11 @@ FOREACH ( MANSRC ${MANSOURCES} )
 ENDFOREACH ( MANSRC ${MANSOURCES} )
 
 ####################################################################
-## Build included copies of libdjbdns and libsmtp
+## Build included copies of libdjbdns, udns and libsmtp
 ####################################################################
 
 ADD_SUBDIRECTORY( djbdns )
+ADD_SUBDIRECTORY( udns )
 ADD_SUBDIRECTORY( smtp )
 ADD_SUBDIRECTORY( tests )
 
