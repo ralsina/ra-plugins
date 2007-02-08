@@ -25,9 +25,6 @@
 #include "udns/udns.h"
 #include "utils.h"
 
-void block_permanent (const bstring message);
-void block_temporary (const bstring message);
-
 int
 main (void)
 {
@@ -37,8 +34,7 @@ main (void)
   bstring from = envtostr ("SMTPMAILFROM");
   if (!from)
     {
-      block_permanent (bfromcstr
-                       ("no MAIL FROM envelope header has been sent."));
+      block_permanent ("no MAIL FROM envelope header has been sent.");
     }
 
   // Empty SMTPMAILFROM happens on bounces. The original plugin had them blocked,
@@ -57,7 +53,7 @@ main (void)
     {
       block_permanent (bformat
                        ("invalid mail address in MAIL FROM envelope header: %s",
-                        from->data));
+                        from->data)->data);
     }
 
   /* make query */
@@ -70,7 +66,7 @@ main (void)
     {
       if (dns_status (NULL) == DNS_E_TEMPFAIL)
         {
-          block_temporary (bfromcstr ("DNS temporary failure."));
+          block_temporary ("DNS temporary failure.");
         }
 
       // check for A record instead of MX record
@@ -81,13 +77,13 @@ main (void)
             {
               if (dns_status (NULL) == DNS_E_TEMPFAIL)
                 {
-                  block_temporary (bfromcstr ("DNS temporary failure."));
+                  block_temporary ("DNS temporary failure.");
                 }
               else
                 {
                   block_permanent (bformat
                                    ("your envelope sender domain must exist: %s",
-                                    domain->data));
+                                    domain->data)->data);
                 }
             }
         }
@@ -97,18 +93,3 @@ main (void)
   exit (0);
 }
 
-void
-block_permanent (const bstring message)
-{
-  printf ("E553 sorry, %s (#5.7.1)\n", message->data);
-  _log (bformat ("blocked with: %s", message->data));
-  exit (0);
-}
-
-void
-block_temporary (const bstring message)
-{
-  printf ("E451 %s (#4.3.0)\n", message->data);
-  _log (bformat ("temporary failure: %s", message->data));
-  exit (0);
-}
