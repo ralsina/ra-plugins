@@ -39,14 +39,6 @@ main (int argc, char *argv[])
       exit (0);
     }
 
-
-
-  address = inet_addr (ip->data);
-  bstring addr = bformat ("%lu.%lu.%lu.%lu",
-                          (address & 0xff000000) >> 24,
-                          (address & 0x00ff0000) >> 16,
-                          (address & 0x0000ff00) >> 8,
-                          (address & 0x000000ff) >> 0);
   //If authenticated, don't check at all
   if (envtostr ("SMTPAUTHUSER"))
     {
@@ -64,7 +56,7 @@ main (int argc, char *argv[])
       bstring serv = list->entry[i];
       if (serv->slen == 0)
         continue;
-      if (checkrbl (addr, serv->data))
+      if (checkrbl (ip, serv->data))
         {
           printf
             ("R541 Your IP (%s) is blocked, more information at http://%s\n",

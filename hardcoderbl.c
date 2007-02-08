@@ -38,20 +38,13 @@ main (int argc, char *argv[])
       exit (0);
     }
 
-  address = inet_addr (ip->data);
-  bstring addr = bformat ("%lu.%lu.%lu.%lu",
-                          (address & 0xff000000) >> 24,
-                          (address & 0x00ff0000) >> 16,
-                          (address & 0x0000ff00) >> 8,
-                          (address & 0x000000ff) >> 0);
-
   //If authenticated, don't check at all
   if (envtostr ("SMTPAUTHUSER"))
     {
       _log (bfromcstr ("No checks performed, because user is authenticated"));
       exit (0);
     }
-  if (checkrbl (addr, "bl.spamcop.net"))
+  if (checkrbl (ip, "bl.spamcop.net"))
     {
       printf
         ("R451 SPAMCOP\tBlocked, look at http://www.spamcop.net/bl.shtml?%s\n",
@@ -61,7 +54,7 @@ main (int argc, char *argv[])
              ip->data));
       exit (0);
     }
-  if (checkrbl (addr, "combined.njabl.org"))
+  if (checkrbl (ip, "combined.njabl.org"))
     {
       printf ("R451 NJABL\tBlocked, look at http://njabl.org/lookup?%s\n",
               ip->data);
