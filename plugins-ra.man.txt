@@ -30,7 +30,7 @@ DESCRIPTION
   
 SEE ALSO
 	  
-  authchecks(8),hardcoderbl(8),localmail(8),msa(8),rblchecks(8),rcptchecksfile(8),senderchecksfile(8),
+  authchecks(8),localmail(8),msa(8),rblchecks(8),rcptchecksfile(8),senderchecksfile(8),
   tarpit(8),authlogger(8),ipthrottle(8),mfdnschecks(8),rcptchecks(8),senderchecks(8),spfchecks(8),
 	  
   Homepage: http://ralsina.blogsite.org/stories/39.html

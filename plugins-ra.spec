@@ -55,7 +55,6 @@ make install DESTDIR=$RPM_BUILD_ROOT
 /var/qmail/plugins/rblchecks
 /var/qmail/plugins/mfdnschecks
 /var/qmail/plugins/ipthrottle
-/var/qmail/plugins/hardcoderbl
 /var/qmail/plugins/authlogger
 /var/qmail/plugins/spfchecks
 /var/qmail/plugins/msa
@@ -69,7 +68,6 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %doc %{_mandir}/man8/mfdnschecks.8.gz
 %doc %{_mandir}/man8/ipthrottle.8.gz
 %doc %{_mandir}/man8/authlogger.8.gz
-%doc %{_mandir}/man8/hardcoderbl.8.gz
 %doc %{_mandir}/man8/spfchecks.8.gz
 %doc %{_mandir}/man8/msa.8.gz
 %doc %{_mandir}/man8/localmail.8.gz
@@ -79,7 +77,6 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %doc authchecks.man.txt
 %doc authlogger.man.txt
 %doc bstrlib.txt
-%doc hardcoderbl.man.txt
 %doc ipthrottle.man.txt
 %doc localmail.man.txt
 %doc man-template.txt
