@@ -1,6 +1,6 @@
 PROJECT (ra-plugins)
 SET (VERSION "0.2.9" )
-#SET (CMAKE_VERBOSE_MAKEFILE ON)
+# SET (CMAKE_VERBOSE_MAKEFILE ON)
 
 ####################################################################
 ## INSTALLATION DIRECTORIES
@@ -37,6 +37,7 @@ FIND_PATH(VPOPMAIL_INCLUDE_DIR vpopmail.h /usr/include/
 
 INCLUDE (FindGTK)
 
+LINK_DIRECTORIES ( djbdns smtp udns )
 
 ###################################################################
 ## Test suite
@@ -208,7 +209,6 @@ ENDIF(LIB_RELAY)
 
 IF ( GTK_FOUND AND LIB_TDB )
   INCLUDE_DIRECTORIES ( ${GTK_INCLUDE_DIR} )
-  LINK_DIRECTORIES ( checkback djbdns smtp )
   ADD_EXECUTABLE ( checkback checkback.c utils.c ${BSTRLIB_SRCS})
   SET_TARGET_PROPERTIES ( checkback PROPERTIES SKIP_BUILD_RPATH TRUE )
   TARGET_LINK_LIBRARIES ( checkback libdjbdns.a libsmtp.a glib tdb)
@@ -226,14 +226,13 @@ ENDIF ( GTK_FOUND AND LIB_TDB )
 
 ####################################################################
 ## mfdnschecks plugin.
-## requires libdjbdns
+## requires libudns
 ####################################################################
 ADD_EXECUTABLE (mfdnschecks mfdnschecks.c utils.c ${BSTRLIB_SRCS})
-LINK_DIRECTORIES (mfdnschecks djbdns)
 SET_TARGET_PROPERTIES ( mfdnschecks PROPERTIES SKIP_BUILD_RPATH TRUE )
-TARGET_LINK_LIBRARIES (mfdnschecks libdjbdns.a)
+TARGET_LINK_LIBRARIES (mfdnschecks libudns.a)
 INSTALL (TARGETS mfdnschecks DESTINATION ${QMAIL_PLUGIN_DIR})
-ADD_DEPENDENCIES (mfdnschecks djbdns)
+ADD_DEPENDENCIES (mfdnschecks udns)
 
 ####################################################################
 ## rcptchecksfile plugin

@@ -1,4 +1,5 @@
 PROJECT (udns) 
+ADD_DEFINITIONS ( -DHAVE_CONFIG_H )
 ADD_LIBRARY (	udns STATIC udns_dn.c udns_dntosp.c udns_parse.c 
 		udns_resolver.c udns_init.c udns_misc.c udns_XtoX.c 
                 udns_rr_a.c udns_rr_ptr.c udns_rr_mx.c 
