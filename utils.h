@@ -36,4 +36,11 @@ int checkaddr (bstring address, bstring *user, bstring *domain);
 extern bstring pluginname;
 void _log (bstring msg);
 
+void
+block_permanent (const bstring message);
+
+void
+block_temporary (const bstring message);
+
+
 #endif
