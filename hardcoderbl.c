@@ -24,8 +24,6 @@
 
 #include "utils.h"
 
-int check_rbl (bstring lookup_addr, const char *rbl);
-
 int
 main (int argc, char *argv[])
 {
@@ -53,7 +51,7 @@ main (int argc, char *argv[])
       _log (bfromcstr ("No checks performed, because user is authenticated"));
       exit (0);
     }
-  if (check_rbl (addr, "bl.spamcop.net"))
+  if (checkrbl (addr, "bl.spamcop.net"))
     {
       printf
         ("R451 SPAMCOP\tBlocked, look at http://www.spamcop.net/bl.shtml?%s\n",
@@ -63,7 +61,7 @@ main (int argc, char *argv[])
              ip->data));
       exit (0);
     }
-  if (check_rbl (addr, "combined.njabl.org"))
+  if (checkrbl (addr, "combined.njabl.org"))
     {
       printf ("R451 NJABL\tBlocked, look at http://njabl.org/lookup?%s\n",
               ip->data);
@@ -75,20 +73,4 @@ main (int argc, char *argv[])
   // No RBL issues
   _log (bformat ("Accepted %s", ip->data));
   exit (0);
-}
-
-int
-check_rbl (bstring lookup_addr, const char *rbl)
-{
-  struct addrinfo *ai = NULL;
-
-  bstring lookupname = bformat ("%s.%s", lookup_addr->data, rbl);
-  if (getaddrinfo (lookupname->data, NULL, NULL, &ai))
-    {
-      if (ai)
-        freeaddrinfo (ai);
-      return 0;
-    }
-  freeaddrinfo (ai);
-  return 1;
 }

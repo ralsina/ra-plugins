@@ -107,3 +107,19 @@ checkaddr (bstring address, bstring * user, bstring * domain)
   bstrListDestroy (pieces);
   return 1;
 }
+
+int
+checkrbl (bstring lookup_addr, const char *rbl)
+{
+  struct addrinfo *ai = NULL;
+  bstring lookupname = bformat ("%s.%s", lookup_addr->data, rbl);
+  if (getaddrinfo (lookupname->data, NULL, NULL, &ai))
+    {
+      if (ai)
+        freeaddrinfo (ai);
+      return 0;
+    }
+  freeaddrinfo (ai);
+  return 1;
+}
+

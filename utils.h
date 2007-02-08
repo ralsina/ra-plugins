@@ -33,6 +33,8 @@ int lineinfile (bstring data, bstring fname);
 
 int checkaddr (bstring address, bstring *user, bstring *domain);
 
+int checkrbl (bstring lookup_addr, const char *rbl);
+
 
 extern bstring pluginname;
 void _log (bstring msg);

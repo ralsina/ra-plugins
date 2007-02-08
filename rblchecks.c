@@ -24,10 +24,6 @@
 
 #include "utils.h"
 
-int check_rbl (bstring lookup_addr, const char *rbl);
-
-
-
 int
 main (int argc, char *argv[])
 {
@@ -68,7 +64,7 @@ main (int argc, char *argv[])
       bstring serv = list->entry[i];
       if (serv->slen == 0)
         continue;
-      if (check_rbl (addr, serv->data))
+      if (checkrbl (addr, serv->data))
         {
           printf
             ("R541 Your IP (%s) is blocked, more information at http://%s\n",
@@ -83,17 +79,3 @@ main (int argc, char *argv[])
   exit (0);
 }
 
-int
-check_rbl (bstring lookup_addr, const char *rbl)
-{
-  struct addrinfo *ai = NULL;
-  bstring lookupname = bformat ("%s.%s", lookup_addr->data, rbl);
-  if (getaddrinfo (lookupname->data, NULL, NULL, &ai))
-    {
-      if (ai)
-        freeaddrinfo (ai);
-      return 0;
-    }
-  freeaddrinfo (ai);
-  return 1;
-}
