@@ -118,11 +118,14 @@ INSTALL (TARGETS authlogger DESTINATION ${QMAIL_PLUGIN_DIR})
 
 ####################################################################
 ## hardcoderbl plugin
-## requires nothing
+## requires libudns
 ####################################################################
 
-ADD_EXECUTABLE (hardcoderbl hardcoderbl.c utils.c ${BSTRLIB_SRCS})
+ADD_EXECUTABLE ( hardcoderbl hardcoderbl.c utils.c dnsutils.c 
+                 ${BSTRLIB_SRCS})
+TARGET_LINK_LIBRARIES (hardcoderbl libudns.a)
 INSTALL (TARGETS hardcoderbl DESTINATION ${QMAIL_PLUGIN_DIR})
+ADD_DEPENDENCIES (hardcoderbl udns)
 
 ####################################################################
 ## localmail plugin
@@ -142,11 +145,14 @@ INSTALL (TARGETS msa DESTINATION ${QMAIL_PLUGIN_DIR})
 
 ####################################################################
 ## rblchecks plugin
-## requires nothing
+## requires libudns
 ####################################################################
 
-ADD_EXECUTABLE (rblchecks rblchecks.c utils.c ${BSTRLIB_SRCS})
+ADD_EXECUTABLE ( rblchecks rblchecks.c utils.c dnsutils.c
+                 ${BSTRLIB_SRCS})
+TARGET_LINK_LIBRARIES (rblchecks libudns.a)
 INSTALL (TARGETS rblchecks DESTINATION ${QMAIL_PLUGIN_DIR})
+ADD_DEPENDENCIES (hardcoderbl udns)
 
 ####################################################################
 ## senderchecks plugin

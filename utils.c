@@ -31,7 +31,7 @@ envtostr (char *vname)
   return retval;
 }
 
-// Returns 1 if a line exactly like data is in the 
+// Returns 1 if a line exactly like data is in the
 // fname file, 0 if not.
 // -1 if there is an error opening the file
 // It is **not** case sensitive
@@ -105,21 +105,6 @@ checkaddr (bstring address, bstring * user, bstring * domain)
   user[0] = bstrcpy (pieces->entry[0]);
   domain[0] = bstrcpy (pieces->entry[1]);
   bstrListDestroy (pieces);
-  return 1;
-}
-
-int
-checkrbl (bstring lookup_addr, const char *rbl)
-{
-  struct addrinfo *ai = NULL;
-  bstring lookupname = bformat ("%s.%s", lookup_addr->data, rbl);
-  if (getaddrinfo (lookupname->data, NULL, NULL, &ai))
-    {
-      if (ai)
-        freeaddrinfo (ai);
-      return 0;
-    }
-  freeaddrinfo (ai);
   return 1;
 }
 
