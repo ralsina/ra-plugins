@@ -109,18 +109,18 @@ checkaddr (bstring address, bstring * user, bstring * domain)
 }
 
 void
-block_permanent (const bstring message)
+block_permanent (const char * message)
 {
-  printf ("E553 sorry, %s (#5.7.1)\n", message->data);
-  _log (bformat ("blocked with: %s", message->data));
+  printf ("E553 sorry, %s (#5.7.1)\n", message);
+  _log (bformat ("blocked with: %s", message));
   exit (0);
 }
 
 void
-block_temporary (const bstring message)
+block_temporary (const char * message)
 {
-  printf ("E451 %s (#4.3.0)\n", message->data);
-  _log (bformat ("temporary failure: %s", message->data));
+  printf ("E451 %s (#4.3.0)\n", message);
+  _log (bformat ("temporary failure: %s", message));
   exit (0);
 }
 

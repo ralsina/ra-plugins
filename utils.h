@@ -37,10 +37,10 @@ extern bstring pluginname;
 void _log (bstring msg);
 
 void
-block_permanent (const bstring message);
+block_permanent (const char * message);
 
 void
-block_temporary (const bstring message);
+block_temporary (const char * message);
 
 
 #endif
