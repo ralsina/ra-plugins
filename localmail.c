@@ -36,7 +36,7 @@ main ()
 
   bstring authuser = envtostr ("SMTPAUTHUSER");
   /*w The user is not authenticated.
-   This plugin doesn't apply, exit quietly */
+     This plugin doesn't apply, exit quietly */
   if (!authuser)
     {
       exit (0);

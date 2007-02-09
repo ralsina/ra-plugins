@@ -33,7 +33,8 @@ START_TEST (test_mailservers_unknown)
   fail_unless (r == -2);
 
 }
-END_TEST Suite * dns_suite (void)
+END_TEST Suite *
+dns_suite (void)
 {
   Suite *s = suite_create ("DNS");
   TCase *dns_core = tcase_create ("Core");
