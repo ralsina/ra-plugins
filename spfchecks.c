@@ -50,7 +50,7 @@ main ()
 
 
   //If authenticated, don't check at all
-  ignore_auth_users();
+  ignore_auth_users ();
 
   /* BOUNCELEVEL is our threshold of annoyance.
 

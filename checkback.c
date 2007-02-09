@@ -61,7 +61,7 @@ main ()
   int cachetime = envtoint ("CHECKBACK_CACHETIME", 86400);
 
 
-  ignore_auth_users();
+  ignore_auth_users ();
 
   // Get the address and domain of the sender
 

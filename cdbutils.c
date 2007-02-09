@@ -1,3 +1,4 @@
+/*w [@cdbutils.c@] */
 #include <cdb.h>
 
 #include <sys/types.h>

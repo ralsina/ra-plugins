@@ -1,0 +1,13 @@
+[@bstrlib@]
+
+==== The Better String Library ====
+
+Because I am conscious of my limitations as a C programmer, I have avoided 
+handling strings whenever possible. It's fraught with risks, annoying,
+and the standard library string API is incredibly ugly.
+
+I have been lucky to find The Better String Library, which makes all that
+uglyness bearable.
+
+You can find more info at [[http://bstring.sourceforge.net/]]
+

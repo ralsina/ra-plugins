@@ -41,7 +41,7 @@ main (int argc, char *argv[])
     }
 
   //If authenticated, don't check at all
-  ignore_auth_users();
+  ignore_auth_users ();
 
   bstring rbl = envtostr ("RBLSERVERS");
   if (!rbl)
