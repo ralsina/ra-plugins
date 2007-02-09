@@ -1,0 +1,23 @@
+[@tinycdb@]
+
+==== TinyCDB ====
+
+TinyCDB is a small library to create and use Constant DataBases (CDBs).
+
+CDBs were introduced by DJ Bernstein, and could be thought like a constant 
+hash on a file.
+
+They are very, very fast if what you want to do is find keyed information.
+
+They are, however, immutable, so if you need to modify data, [[#tdb|TDB]] is a better idea.
+
+However, that speed make them useful for things like "is this name in that file?"
+
+It is thousands of times faster to do that using a CDB than using a plain text file. On a busy mail server,
+that is **important**.
+
+Michael Tokarev's TinyCDB was chosen because it has a clean API, good performance, and clear licensing.
+
+You can find more information at [[http://www.corpit.ru/mjt/tinycdb.html]]
+
+

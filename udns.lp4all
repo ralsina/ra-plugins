@@ -1,0 +1,30 @@
+[@udns@]
+
+==== UDNS ====
+
+Most applications don't care much about DNS. They may need to resolve
+a domain name to connect somewhere and that's that.
+
+Maybe check a PTR record, if it's a server.
+
+On the other hand, DNS is very fundamental for mail. You have to handle MX 
+records, A records, probably PTR.
+
+And in the age of IPv6 (which I have been told is coming Any Day Now [TM]), 
+there are AAAA records and whatnot.
+
+And if you do RBL, there are also TXT records for explanations, and
+if you do SPF, again TXT and maybe SPF records.
+
+Now, all that, using the regular unix resolver, is a nightmare.
+
+I had used DJ Bernstein's [[http://cr.yp.to/djbdns/dns.html|libdjbdns]] but it
+was somewhat annoying.
+
+Now, I am using Michael Tokarev's UDNS and it's a real improvement.
+It's nice, not too confusing, and small enough to include a copy.
+
+Really, a nice thing.
+
+You can find more info at [[http://www.corpit.ru/mjt/udns.html]]
+

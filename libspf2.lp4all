@@ -1,0 +1,15 @@
+[@libspf2@]
+
+==== LibSPF2 ====
+
+[[http://www.libspf2.org|LibSPF2]] is a library implementing support
+for [[http://openspf.org/SPF]]. 
+
+I am using it for my [[#spfchecks|spfchecks]] plugin.
+
+Sadly, it is not well maintained, and the authors are not responsive.
+
+Also, it doesn't work right in at least some cases.
+
+So, I am looking for options to replace it.
+

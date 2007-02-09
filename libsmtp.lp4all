@@ -1,0 +1,8 @@
+[@libsmtp@]
+
+==== LibSMTP ====
+
+For my [[#checkback|checkback]] plugin, I needed to act as a SMTP client. This library is
+the best I found, based on API cleanliness, functionality, and being maintained.
+
+You can find more information at [[http://libsmtp.berlios.de/]]

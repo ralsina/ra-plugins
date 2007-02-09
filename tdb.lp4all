@@ -1,0 +1,14 @@
+[@tdb@]
+
+==== TDB ====
+
+[[http://sourceforge.net/projects/tdb/|TDB]] is a database with scope similar to GDBM or the old unix DBM.
+
+The main advantages are that it allows for multiple simultaneous writers, which in a multiprocessing
+environment like qmail-spp plugins is a huge bonus (you avoid using a daemon to serialize access).
+
+It's nice. It's simple. It works. I like it.
+
+For tasks where you need concurrent writing, (or just writing) to this kind of simple DBs, it's my
+favourite choice.
+

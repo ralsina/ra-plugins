@@ -1,0 +1,78 @@
+==== A collection of qmail-spp plugins ====
+
+  This package provides several plugins meant to be used with a qmail patched using qmail-spp 
+  [[http://qmail-spp.sf.net]].
+
+  They cover diverse areas, and are meant to be written according to the following principles:
+	
+  === Good performance ===
+
+  They are written whenever possible in C, and try to be short and direct.
+
+  === Good logging ===
+
+  They should inform the user of what they do. No email should ever be rejected without logging
+  **something**. Also, all plugins logs include the PID of the qmail-smtpd process, so you can
+  easily group all events of a connection.
+
+  === Security ===
+
+  For most plugins, it should be possible to run them as a very unprivileged user
+  or in a chroot jail. This is not yet implemented, but it is worth thinking.
+
+  === External Code ===
+  
+  I am a limited programmer. C is a dangerous language. SMTP servers are important beasts.
+  That is a dangerous combination. 
+  
+  That's why, whenever possible, I use a library. Specifically, ra-plugins uses the following:
+  
+  - [[#bstrlib|The Better String Library]] for string processing
+  
+  - [[#udns|UDNS]] For DNS lookups.
+  
+  - [[#libspf2|LibSPF2]] For SPF
+  
+  - [[#tinycdb|TinyCDB]] For constant databases
+  
+  - [[#tdb|TDB]] For variable databases
+  
+  - [[#libsmtp|LibSMTP]] For SMTP client support
+
+  These libraries have been chosen for their functional and clean APIs, and they are all
+  good things to use. I suggest (for whatever my modest opinion may be worth) that they are nice things
+  to use in your own projects.
+  
+
+  === Plugins ===
+  
+  The following plugins are part of the package:
+  
+  - [[#localmail]]
+  
+  - [[#msa]]
+  
+  - [[#rblchecks]]
+  
+  - [[#rcptchecksfile]]
+  
+  - [[#senderchecksfile]]
+  
+  - [[#tarpit]]
+  
+  - [[#authlogger]]
+  
+  - [[#ipthrottle]]
+  
+  - [[#mfdnschecks]]
+  
+  - [[#rcptchecks]]
+  
+  - [[#senderchecks]]
+  
+  - [[#spfchecks]]
+  
+  === Code ===
+  
+  Below you can see a list of the source files for this project (libraries excluded).
+
