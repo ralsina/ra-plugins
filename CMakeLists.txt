@@ -46,7 +46,7 @@ LINK_DIRECTORIES ( smtp udns )
 ADD_CUSTOM_TARGET ( check )
 SET ( TESTDIR ../tests )
 
-FOREACH (TEST test_utils)
+FOREACH (TEST test_utils test_dns)
   ADD_CUSTOM_TARGET ( DO_${TEST} DEPENDS tests/${TEST}
   COMMAND TDIR=${TESTDIR} tests/${TEST}
   )
