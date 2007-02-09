@@ -40,5 +40,7 @@ void block_permanent (const char *message);
 
 void block_temporary (const char *message);
 
+void ignore_auth_users (void);
+
 
 #endif

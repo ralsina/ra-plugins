@@ -123,3 +123,14 @@ block_temporary (const char *message)
   _log (bformat ("temporary failure: %s", message));
   exit (0);
 }
+
+void ignore_auth_users (void)
+{
+  if (envtostr ("SMTPAUTHUSER"))
+    {
+      _log (bfromcstr ("No checks performed, because user is authenticated"));
+      exit (0);
+    }
+}
+
+
