@@ -1,0 +1,86 @@
+[@rblchecks@]
+
+==== RBLCHECKS ====
+
+=== DESCRIPTION ===
+
+  This plugins is meant to be used on the MAIL command and performs a RBL check of the sender IP 
+  address.
+  
+  If the sender IP is recognized by the RBL, it will close the connection.
+
+  If the user is successfully authenticated, this plugin disables itself for the session. This is 
+  necessary because most home IP addresses are listed in one RBL or the other. This behaviour,
+  may become configurable in the future.
+
+  It could be used at the HELO command, but then you have no way to allow access for your
+  authenticated users.
+ 
+=== REQUIREMENTS ===
+ 
+  This plugin will add one or more DNS calls for every incoming connection, and one line of logging. 
+  Other than that, performance impact should be negligible. If the RBL servers you use are down, 
+  it will cause latency, but since that should never happen to authenticated connections, your users 
+  should never notice it.
+ 
+=== CONFIGURATION ===
+
+  By default, rblchecks uses the bl.spamcop.net server, but you can configure it so
+  it uses another server or servers by setting the RBLSERVERS environment variable
+  to a colon-separated list of RBL servers. For example:
+%%    
+    RBLSERVERS="bl.spamcop.net:combined.njabl.org"
+%%    
+  In this case, the IP address of the sender will be chacked against bl.spamcop.net and
+  then against combined.njabl.org.
+  
+  Whenever a server is listed on one of the RBL servers, an error message will be displayed 
+  to the user, and no more checks will be performed, so it is ok to use more than one 
+  server.
+
+=== LOGGING ===
+
+  It logs the result for every connection, like this:
+
+%%    
+	rblchecks: pid 17843 - No checks performed, because user is authenticated
+	rblchecks: pid 11668 - 541 Blocked by combined.njabl.org (24.232.239.145)
+	rblchecks: pid 2496 - Accepted 201.247.80.30
+%%    
+	
+=== ERROR MESSAGES ===
+
+  The sender will see error messages like the following:
+	  
+%%    
+    541 Your IP (24.232.239.145) is blocked, more information at http://combined.njabl.org
+%%    
+
+  Or, if the RBL you are using provides descriptions, like this:
+  
+%%    
+    451 Your IP (72.72.64.242) is blocked. Reason: Dynamic/Residential 
+        IP range listed by NJABL dynablock - http://njabl.org/dynablock.html
+%%    
+    
+%%    
+    451 Your IP (72.72.64.242) is blocked. Reason: Blocked - 
+        see http://www.spamcop.net/bl.shtml?72.72.64.242
+%%    
+
+
+=== CODE ===
+
+- [[#rblchecks.c]]
+
+- [[#utils.c]]
+
+- [[#utils.h]]
+
+- [[#dnsutils.c]]
+
+- [[#dnsutils.h]]
+
+- [[#udns]]
+
+- [[#bstrlib]]

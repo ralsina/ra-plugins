@@ -1,4 +1,4 @@
-/*
+/*w [@rblchecks.c@]
 * Copyright (C) 2003-2004 Perolo Silantico <per.sil@gmx.it>
 * Copyright (C) 2006 Roberto Alsina <ralsina@kde.org>
 *

@@ -1,0 +1,53 @@
+[@msa@]
+
+==== MSA ====
+
+=== DESCRIPTION ===
+
+  This plugin limits qmail-smtpd so that it works right as a MSA server.
+  
+  The MSA service is a lot like SMTP, except that it requires authentication.
+   
+  This plugin works by checking if the user is authenticated and closing the
+  connection if he is not.
+  
+  You can read more about MSA at many places. It's defined in the RFC2476,
+  called "Message Submission". You can read it here: 
+  [[http://www.ietf.org/rfc/rfc2476.txt]]
+  
+  This plugin should only be used on a qmail-smtpd listening on the MSA port,
+  and only on the MAIL command.
+
+=== REQUIREMENTS ===
+
+  It makes no sense if you don't have SMTP authentication on your server.
+ 
+=== CONFIGURATION ===
+
+  None.
+
+=== LOGGING ===
+
+  It will log every rejection:
+
+%%	  
+    msa: pid 4522 - Message rejected (no auth).
+%%
+
+=== ERROR MESSAGES ===
+
+  It will give the sender this message if he is not authenticated:
+	  
+%%
+    550 You should be authenticated
+%%
+
+=== CODE ===
+
+- [[#msa.c]]
+
+- [[#utils.h]]
+
+- [[#utils.c]]
+
+- [[#bstrlib]]

@@ -1,4 +1,4 @@
-/*
+/*w [@rcptchecksfile.c@]
 * Copyright (C) 2006 Roberto Alsina <ralsina@kde.org>
 *
 * This program is free software; you can redistribute it and/or
@@ -32,7 +32,7 @@ main ()
   bstring ctrlfname = envtostr ("CHKUSER_WLFILE");
   bstring addrfname = envtostr ("CHKUSER_ADDRFILE");
 
-  //Reset wrongrcptcount on new mail 
+  /*w Reset wrongrcptcount on new mail */
   if (wrongrcptcount > smtprcptcount)
     wrongrcptcount = 0;
 
@@ -42,8 +42,8 @@ main ()
   bstring username, domain;
   if (0 == checkaddr (smtprcptto, &username, &domain))
 
-    // If there are more than $CHKUSER_RCPTLIMIT RCPTs accepted
-    // fail with error
+    /*w If there are more than $CHKUSER_RCPTLIMIT RCPTs accepted
+       fail with error */
 
     if (chkuser_rcptlimit <= smtprcptcount)
       {
@@ -56,11 +56,13 @@ main ()
       }
 
 
-  /*******************************************************************/
-  /* Domain whitelisting                                             */
-  /*******************************************************************/
+  /*w
 
-  // Check if the domain is in our whitelist
+     == Domain whitelisting ==
+
+     Check if the domain is in our whitelist
+
+   */
 
   int iswhitelisted = 0;
   if (ctrlfname->slen != 0)
@@ -68,8 +70,8 @@ main ()
       iswhitelisted = lineinfile (domain, ctrlfname);
       if (iswhitelisted == -1)
         {
-          // Can't open whitelist file.
-          // Not a lethal problem, but log it anyway.
+          /*w Can't open whitelist file.
+             Not a lethal problem, but log it anyway. */
           _log (bformat ("Couldn't open whitelist file (%s)",
                          ctrlfname->data));
           iswhitelisted = 0;
@@ -85,30 +87,29 @@ main ()
     }
 
 
+  /*w
+     == Domain locality ==
 
-  /*******************************************************************/
-  /* Domain locality                                                 */
-  /*******************************************************************/
-
-  // If it is for one of our RCPTHOSTS, then we will check if the user
-  // is in our list of addresses.
+     If it is for one of our RCPTHOSTS, then we will check if the user
+     is in our list of addresses.
+   */
 
   int islocal = lineinfile (domain,
                             bfromcstr ("/var/qmail/control/rcpthosts"));
   if (islocal == -1)
     {
-      // Well, maybe we have no rcpthosts. No check possible.
-      // Log anyway, because this plugin is usseless in this case!
+      /*w Well, maybe we have no rcpthosts. No check possible.
+         Log anyway, because this plugin is usseless in this case! */
 
       _log (bfromcstr ("error opening rcpthosts"));
       exit (0);
     }
 
-  // Since it is accepted here, check if the user exists.
+  /*w 
 
-  /*******************************************************************/
-  /*  Address checking                                               */
-  /*******************************************************************/
+     == Address checking ==
+     Since it is accepted here, check if the user exists.
+   */
 
   int valid = 1;
   if (islocal == 1)
@@ -116,8 +117,8 @@ main ()
       valid = lineinfile (smtprcptto, addrfname);
       if (valid == -1)
         {
-          // eror opening file, can't do anything,
-          // accept mail, but log error
+          /*w eror opening file, can't do anything,
+             accept mail, but log error */
           _log (bformat ("Error opening address list file (%s)",
                          addrfname->data));
           exit (0);
@@ -125,28 +126,30 @@ main ()
     }
 
 
-  /*******************************************************************/
-  /* Decision and closing                                            */
-  /*******************************************************************/
+  /*w
+     == Decision and closing ==
 
-  //Now we should have the following
-  //
-  // valid = 1 if the user exists or if it's not local
-  // valid = 0 if the user is local and does not exist
-  //
-  // username and domain with the right data
+     Now we should have the following
 
-  // We keep the number of failed RCPTs on WRONGRCPTCOUNT
+     - valid = 1 if the user exists or if it's not local
 
-  if (valid == 0)               //Not valid, not relaying, we don't like it
+     - valid = 0 if the user is local and does not exist
+
+     - username and domain with the right data
+
+     - We keep the number of failed RCPTs on WRONGRCPTCOUNT
+   */
+
+  if (valid == 0)
     {
+      /*w Not valid, not relaying, we don't like it */
       wrongrcptcount = wrongrcptcount + 1;
       printf ("SWRONGRCPTCOUNT=%d\n", wrongrcptcount);
     }
 
-  // Over $CHKUSER_WRONGRCPTLIMIT we don't care if it's valid or not, by policy
   if (wrongrcptcount > chkuser_wrongrcptlimit)
     {
+      /*w Over $CHKUSER_WRONGRCPTLIMIT we don't care if it's valid or not, by policy */
       printf
         ("E571 sorry, you are violating our security policies (#5.7.1 - rcptchecksfile)\n");
       _log (bformat
@@ -156,9 +159,9 @@ main ()
       exit (0);
     }
 
-  //Finally, if it's not valid, but we are within limits, plain doesn't exist
   if (valid == 0)
     {
+      /*w Finally, if it's not valid, but we are within limits, plain doesn't exist */
       printf
         ("E511 sorry, no mailbox here by that name (#5.1.1 - rcptchecksfile)\n");
       _log (bformat ("511 sorry, no mailbox here by that name (%s@%s)",
