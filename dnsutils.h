@@ -9,6 +9,6 @@ int checkrbl (bstring lookup_addr, const char *rbl);
 
 bstring describerbl (bstring lookup_addr, const char *rbl);
 
-int mailservers (bstring domain, struct bstrList *list);
+int mailservers (bstring domain, struct bstrList **list);
 
 #endif

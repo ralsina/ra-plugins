@@ -60,6 +60,8 @@ IF (LIB_CDB)
   ADD_DEPENDENCIES ( check DO_test_cdb )
 ENDIF (LIB_CDB)
 
+ADD_DEPENDENCIES ( check udns smtp )
+
 
 ####################################################################
 ## Targets for pre-distributuion

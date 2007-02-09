@@ -130,7 +130,7 @@ main ()
 
 
   struct bstrList *list;
-  int count = mailservers (domain, list);
+  int count = mailservers (domain, &list);
   if (count < 0)                //Error
     {
       block_temporary ("Couldn't verify sender, come back later");

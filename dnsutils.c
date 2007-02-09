@@ -40,7 +40,7 @@ describerbl (bstring lookup_addr, const char *rbl)
 
 
 int
-mailservers (bstring domain, struct bstrList *list)
+mailservers (bstring domain, struct bstrList **list)
 {
   struct dns_rr_mx *mx;
   struct dns_rr_a4 *a4;
@@ -63,9 +63,9 @@ mailservers (bstring domain, struct bstrList *list)
         {
           if (dns_status (NULL) == DNS_E_TEMPFAIL)
             {
-              block_temporary ("DNS temporary failure.");
+              return -1;
             }
-          return -1;
+          return -2;
         }
       else                      // don't have a MX, but have A
         {
@@ -84,7 +84,7 @@ mailservers (bstring domain, struct bstrList *list)
         }
     }
 
-  list = bsplit (tmp, '|');
-  return list->qty - 1;
+  list[0] = bsplit (tmp, '|');
+  return list[0]->qty - 1;
 
 }
