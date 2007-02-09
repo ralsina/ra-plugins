@@ -92,4 +92,3 @@ main (void)
   _log (bformat ("OK %s", from->data));
   exit (0);
 }
-

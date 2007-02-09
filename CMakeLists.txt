@@ -204,10 +204,11 @@ ENDIF(LIB_RELAY)
 
 IF ( GTK_FOUND AND LIB_TDB )
   INCLUDE_DIRECTORIES ( ${GTK_INCLUDE_DIR} )
-  ADD_EXECUTABLE ( checkback checkback.c utils.c ${BSTRLIB_SRCS})
+  ADD_EXECUTABLE ( checkback checkback.c utils.c dnsutils.c 
+                   ${BSTRLIB_SRCS})
   SET_TARGET_PROPERTIES ( checkback PROPERTIES SKIP_BUILD_RPATH TRUE )
-  TARGET_LINK_LIBRARIES ( checkback libdjbdns.a libsmtp.a glib tdb)
-  ADD_DEPENDENCIES ( checkback djbdns smtp )
+  TARGET_LINK_LIBRARIES ( checkback libudns.a libsmtp.a glib tdb)
+  ADD_DEPENDENCIES ( checkback udns smtp )
   INSTALL ( TARGETS checkback DESTINATION ${QMAIL_PLUGIN_DIR})
   
 # Helper to purge cache

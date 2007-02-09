@@ -31,16 +31,14 @@ int lineinfile (bstring data, bstring fname);
 // * 0 if address is broken
 // * 1 if address is ok
 
-int checkaddr (bstring address, bstring *user, bstring *domain);
+int checkaddr (bstring address, bstring * user, bstring * domain);
 
 extern bstring pluginname;
 void _log (bstring msg);
 
-void
-block_permanent (const char * message);
+void block_permanent (const char *message);
 
-void
-block_temporary (const char * message);
+void block_temporary (const char *message);
 
 
 #endif

@@ -1,27 +1,28 @@
 /*
-* Copyright (C) 2006 Roberto Alsina <ralsina@kde.org>
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either
-* version 2 of the License, or (at your option) any later
-* version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software Foundation,
-* Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-*
-*/
+ * Copyright (C) 2006 Roberto Alsina <ralsina@kde.org>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
+ */
 
 
 #include <errno.h>
-#include "djbdns/dns.h"
+#include "udns/udns.h"
 #include "utils.h"
+#include "dnsutils.h"
 
 #include <glib.h>
 #include "smtp/libsmtp.h"
@@ -40,15 +41,22 @@ time_t check_cache (bstring address);
 void cache (bstring address);
 
 int compar1 (const void *vp0, const void *vp1);
-void accept ();
-void block_permanent (const char *message);
-void block_temporary (const char *message);
+void _accept (void);
 int checkSender (bstring server, bstring address);
+
+void
+close_db (void)
+{
+  if (db)
+    tdb_close (db);
+}
 
 int
 main ()
 {
   pluginname = bfromcstr ("checkback");
+  dns_init (NULL, 1);
+  atexit (close_db);
   bstring buffer;
   int cachetime = envtoint ("CHECKBACK_CACHETIME", 86400);
 
@@ -56,7 +64,7 @@ main ()
   if (envtostr ("SMTPAUTHUSER"))
     {
       _log (bfromcstr ("Authenticated user, no checking."));
-      accept ();
+      _accept ();
     }
 
   // Get the address and domain of the sender
@@ -117,105 +125,48 @@ main ()
     {
       _log (bformat
             ("Sender in cache (%s - %d seconds)", smtpmailfrom->data, r));
-      accept ();
+      _accept ();
     }
 
 
-  // Get the MX records for the sender's domain
-
-  stralloc out = { 0 };
-  stralloc fqdn = { 0 };
-  stralloc_copys (&fqdn, domain->data);
-
-  if (dns_mx (&out, &fqdn) < 0 || out.len == 0) // No MX record, or error
+  struct bstrList *list;
+  int count = mailservers (domain, list);
+  if (count < 0)                //Error
     {
-      if ((errno == ECONNREFUSED) || (errno == EAGAIN))
-        block_temporary ("DNS temporary failure.");
-
-      // check for A record instead of MX record
-      else if (dns_ip4 (&out, &fqdn) < 0 || out.len == 0)       // No A record, or error
+      block_temporary ("Couldn't verify sender, come back later");
+    }
+  else if (count == 0)          //Shouldn't happen
+    {
+      block_permanent ("Could not verify sender");
+    }
+  else                          // Got someone to check
+    {
+      int istemperr = 0;
+      int i;
+      for (i = 0; i < count; i++)
         {
-          if ((errno == ECONNREFUSED) || (errno == EAGAIN))
-            block_temporary ("DNS temporary failure.");
-          else
-            {
-              buffer =
-                bformat ("your envelope sender domain must exist: %s",
-                         domain->data);
-              block_permanent (buffer->data);
-            }
-        }
-
-      else                      //Check against sending domain's A
-        {
-          int r = checkSender (domain, smtpmailfrom);
+          int r = checkSender (list->entry[i], smtpmailfrom);
           if (r == 0)
             {
               cache (smtpmailfrom);
-              accept ();
+              _accept ();
             }
-          if (r == 1)
-            {
-              block_permanent ("Could not verify sender");
-            }
-          if (r == 2)
-            {
-              block_temporary ("Couldn't verify sender, come back later");
-            }
-          if (r == 3)
-            {
-              block_permanent ("Sender's server doesn't accept my mail");
-            }
-        }
-    }
-
-  else                          //Check against sending domain's MXs 
-    {
-      int pos = 0;
-      int mxcount = 0;
-      bstring mxs[20];          // should be more than enough
-      while (pos < out.len)
-        {
-          // The first two bytes are a distance
-          int dist = out.s[pos] * 256 + out.s[pos + 1];
-
-          // From pos+2 until the next \0 is the name of the MX
-          int l = strlen (out.s + pos + 2);
-          bstring mx = bformat ("%08d%s", dist, out.s + pos + 2);
-
-          mxs[mxcount] = mx;
-          mxcount++;
-          if (mxcount > 19)     //just paranoic
-            break;
-
-          // Move forward the length of the distance (2), plus
-          // the length of the MX name, plus the terminating NULL
-          pos = pos + l + 3;
-        }
-      qsort (mxs, mxcount, sizeof (bstring), compar1);
-      int j = 0;
-      int r;
-      int istemperr = 0;
-      for (j = 0; j < mxcount; j++)
-        {
-          r = checkSender (bmidstr (mxs[j], 8, 1000), smtpmailfrom);
-          if (r == 2)           // Temp. error, try next MX
+          else if (r == 2)      // Temp. error, try next MX
             {
               istemperr = 1;
               continue;
             }
-          if (r == 1)
+          else if (r == 1)
             {
               block_permanent ("Could not verify sender");
             }
-          if (r == 3)           // Error on MAIL FROM, could be many things
+          else if (r == 3)      // Error on MAIL FROM, could be many things
             {
-              block_permanent ("Sender's server doesn't accept my mail");
+              block_permanent ("Sender's server doesn't _accept my mail");
             }
           cache (smtpmailfrom);
-          accept ();
+          _accept ();
         }
-      // We ran out of MXs
       if (istemperr == 1)       // At least one error was temporary
         {
           block_temporary ("Couldn't verify sender, come back later");
@@ -225,15 +176,13 @@ main ()
           block_permanent ("Could not verify sender");
         }
     }
-  cache (smtpmailfrom);
-  accept ();
 }
 
 
 // Returns: 0 if it validates
 //          1 if the server rejects
 //          2 if it's a temporary error
-//          3 if it's an error sending MAIl FROM: <> 
+//          3 if it's an error sending MAIl FROM: <>
 
 int
 checkSender (bstring server, bstring address)
@@ -282,7 +231,7 @@ checkSender (bstring server, bstring address)
                      smtpresp));
               retval = 3;       // We really don't like it
             }
-        }                       // Error sending MAIL FROM 
+        }                       // Error sending MAIL FROM
     }                           // Error connecting
 
   // Now, if we got here with a retval of 99, that
@@ -314,37 +263,14 @@ compar1 (const void *vp0, const void *vp1)
   return (bstricmp (*ip0, *ip1));
 }
 
+
+
 void
-accept ()
+_accept ()
 {
-  if (db)
-    tdb_close (db);
   _log (bformat ("OK %s", smtpmailfrom->data));
   exit (0);
 }
-
-
-void
-block_permanent (const char *message)
-{
-  printf ("E553 sorry, %s (#5.7.1)\n", message);
-  _log (bformat ("blocked with: %s", message));
-  if (db)
-    tdb_close (db);
-  exit (0);
-}
-
-
-void
-block_temporary (const char *message)
-{
-  printf ("E451 %s\n", message);
-  _log (bformat ("temporary failure: %s", message));
-  if (db)
-    tdb_close (db);
-  exit (0);
-}
-
 
 // Open cache DB file, do initialization, etc.
 
@@ -403,7 +329,6 @@ cache (bstring address)
   if (-1 == tdb_store (db, key, data, TDB_REPLACE))
     {
       _log (bfromcstr ("Error saving data to cache"));
-      tdb_close (db);
       exit (0);
     }
   // I don't bother cleaning because this program is exiting very soon
