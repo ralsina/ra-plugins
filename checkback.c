@@ -61,11 +61,7 @@ main ()
   int cachetime = envtoint ("CHECKBACK_CACHETIME", 86400);
 
 
-  if (envtostr ("SMTPAUTHUSER"))
-    {
-      _log (bfromcstr ("Authenticated user, no checking."));
-      _accept ();
-    }
+  ignore_auth_users();
 
   // Get the address and domain of the sender
 
