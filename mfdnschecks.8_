@@ -27,7 +27,7 @@ message. That should not be a problem on any reasonable configuration, unless yo
 Internet connectivity on delivery (for example if it uses fetchmail to get the mail and does 
 the delivery while offline).
 .PP
-This plugin uses D.J. Bernstein's libdjbdns, but a copy is included.
+This plugin uses the udns library, but a copy is included.
 .SH CONFIGURATION
 
 No configuration required.

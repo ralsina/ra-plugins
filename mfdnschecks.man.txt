@@ -26,8 +26,8 @@ REQUIREMENTS
   Internet connectivity on delivery (for example if it uses fetchmail to get the mail and does 
   the delivery while offline).
  
-  This plugin uses D.J. Bernstein's libdjbdns, but a copy is included.
- 
+  This plugin uses the udns library, but a copy is included.
+
 CONFIGURATION
 
   No configuration required.

@@ -37,7 +37,7 @@ FIND_PATH(VPOPMAIL_INCLUDE_DIR vpopmail.h /usr/include/
 
 INCLUDE (FindGTK)
 
-LINK_DIRECTORIES ( djbdns smtp udns )
+LINK_DIRECTORIES ( smtp udns )
 
 ###################################################################
 ## Test suite
@@ -94,10 +94,9 @@ FOREACH ( MANSRC ${MANSOURCES} )
 ENDFOREACH ( MANSRC ${MANSOURCES} )
 
 ####################################################################
-## Build included copies of libdjbdns, udns and libsmtp
+## Build included copies of udns and libsmtp
 ####################################################################
 
-ADD_SUBDIRECTORY( djbdns )
 ADD_SUBDIRECTORY( udns )
 ADD_SUBDIRECTORY( smtp )
 ADD_SUBDIRECTORY( tests )
@@ -199,7 +198,7 @@ ENDIF(LIB_RELAY)
 
 ####################################################################
 ## checkback plugin
-## requires libdjbdns, libsmtp, glib
+## requires udns, libsmtp, glib
 ####################################################################
 
 IF ( GTK_FOUND AND LIB_TDB )
