@@ -55,7 +55,6 @@ main ()
       if (0 == envtoint ("SMTPRCPTHOSTSOK", 0)) //recipient is remote
         {
           printf ("E550 You are only allowed to send to local addresses.");
-          btrunc (authuser, authuser->slen - 1);
           _log (bformat ("blocked from %s to %s",
                          authuser->data, rcpt->data));
         }
