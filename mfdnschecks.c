@@ -22,14 +22,13 @@
  *
  */
 
-#include "udns/udns.h"
 #include "utils.h"
+#include "dnsutils.h"
 
 int
 main (void)
 {
   pluginname = bfromcstr ("mfdnschecks");
-  dns_init (NULL, 1);
 
   bstring from = envtostr ("SMTPMAILFROM");
   if (!from)
@@ -56,39 +55,20 @@ main (void)
                         from->data)->data);
     }
 
-  /* make query */
 
-  // check for MX records
-
-  struct dns_rr_mx *mx = dns_resolve_mx (NULL, domain->data, 0);
-
-  if (!mx)                      // No MX record, or error
+  struct bstrList *list;
+  int r = mailservers (domain, &list);
+  if (r == -1)
     {
-      if (dns_status (NULL) == DNS_E_TEMPFAIL)
-        {
-          block_temporary ("DNS temporary failure.");
-        }
-
-      // check for A record instead of MX record
-      else
-        {
-          struct dns_rr_a4 *a4 = dns_resolve_a4 (NULL, domain->data, 0);
-          if (!a4)              // No A record, or error
-            {
-              if (dns_status (NULL) == DNS_E_TEMPFAIL)
-                {
-                  block_temporary ("DNS temporary failure.");
-                }
-              else
-                {
-                  block_permanent (bformat
-                                   ("your envelope sender domain must exist: %s",
-                                    domain->data)->data);
-                }
-            }
-        }
-
+      block_temporary ("DNS temporary failure.");
     }
+  else if (r == -2 || r == 0)
+    {
+      block_permanent (bformat
+                       ("your envelope sender domain must exist: %s",
+                        domain->data)->data);
+    }
+
   _log (bformat ("OK %s", from->data));
   exit (0);
 }

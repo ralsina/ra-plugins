@@ -27,6 +27,8 @@ FIND_LIBRARY(LIB_TDB tdb)
 
 FIND_LIBRARY(LIB_CDB cdb)
 
+FIND_LIBRARY(LIB_CHECK check)
+
 FIND_LIBRARY(LIB_MYSQL mysqlclient PATHS /usr/lib/mysql)
 
 FIND_LIBRARY(LIB_VPOPMAIL vpopmail PATHS /home/vpopmail/lib)
@@ -46,22 +48,25 @@ LINK_DIRECTORIES ( smtp udns )
 ADD_CUSTOM_TARGET ( check )
 SET ( TESTDIR ../tests )
 
-FOREACH (TEST test_utils test_dns)
-  ADD_CUSTOM_TARGET ( DO_${TEST} DEPENDS tests/${TEST}
-  COMMAND TDIR=${TESTDIR} tests/${TEST}
-  )
-  ADD_DEPENDENCIES ( check DO_${TEST} )
-ENDFOREACH (TEST test_cdb test_utils )
+IF (LIB_CHECK)
 
-IF (LIB_CDB)
-  ADD_CUSTOM_TARGET ( DO_test_cdb DEPENDS tests/test_cdb
-  COMMAND TDIR=${TESTDIR} tests/test_cdb
-  )
-  ADD_DEPENDENCIES ( check DO_test_cdb )
-ENDIF (LIB_CDB)
+  FOREACH (TEST test_utils test_dns)
+    ADD_CUSTOM_TARGET ( DO_${TEST} DEPENDS tests/${TEST}
+    COMMAND TDIR=${TESTDIR} tests/${TEST}
+    )
+    ADD_DEPENDENCIES ( check DO_${TEST} )
+  ENDFOREACH (TEST test_cdb test_utils )
+  
+  IF (LIB_CDB)
+    ADD_CUSTOM_TARGET ( DO_test_cdb DEPENDS tests/test_cdb
+    COMMAND TDIR=${TESTDIR} tests/test_cdb
+    )
+    ADD_DEPENDENCIES ( check DO_test_cdb )
+  ENDIF (LIB_CDB)
+  
+  ADD_DEPENDENCIES ( check udns smtp )
 
-ADD_DEPENDENCIES ( check udns smtp )
-
+ENDIF (LIB_CHECK)
 
 ####################################################################
 ## Targets for pre-distributuion
@@ -225,7 +230,8 @@ ENDIF ( GTK_FOUND AND LIB_TDB )
 ## mfdnschecks plugin.
 ## requires libudns
 ####################################################################
-ADD_EXECUTABLE (mfdnschecks mfdnschecks.c utils.c ${BSTRLIB_SRCS})
+ADD_EXECUTABLE (mfdnschecks mfdnschecks.c utils.c dnsutils.c 
+                ${BSTRLIB_SRCS})
 SET_TARGET_PROPERTIES ( mfdnschecks PROPERTIES SKIP_BUILD_RPATH TRUE )
 TARGET_LINK_LIBRARIES (mfdnschecks libudns.a)
 INSTALL (TARGETS mfdnschecks DESTINATION ${QMAIL_PLUGIN_DIR})
