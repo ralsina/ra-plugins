@@ -38,6 +38,8 @@
   - [[#tdb|TDB]] For variable databases
   
   - [[#libsmtp|LibSMTP]] For SMTP client support
+  
+  - [[#relayd]] For rate limiting.
 
   These libraries have been chosen for their functional and clean APIs, and they are all
   good things to use. I suggest (for whatever my modest opinion may be worth) that they are nice things

@@ -23,7 +23,7 @@ LOGGING
 
 SEE ALSO
 
-  plugins-ra(8), authchecks(8)
+  plugins-ra(8)
 
   Homepage: http://ralsina.blogsite.org/stories/39.html
 

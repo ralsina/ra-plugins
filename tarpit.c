@@ -1,4 +1,4 @@
-/*
+/*w [@tarpit.c@]
  * Copyright (C) 2004 Pawel Foremski <pjf@asn.pl>
  * Copyright © 2006 Roberto Alsina <ralsina@kde.org>
  *

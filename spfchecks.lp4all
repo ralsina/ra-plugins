@@ -1,0 +1,101 @@
+
+[@spfchecks@]
+
+=== SPFCHECKS ===
+
+  An experimental SPF plugin for qmail-spp.
+  
+  This plugin is not very well tested, but it may work for you.
+  It tries to use the SPF standard [[http://www.openspf.org]] to help you reject 
+  email from forged addresses.
+	  
+  You should use it on the RCPT command, or in the MAIL command.
+  It will use the sender's email address, and the IP from where the message 
+  is coming, to decide if the message is coming from an authorized sending 
+  IP address.
+	  
+  A domain supporting SPF will set, on DNS, records showing all IP addreses
+  from where their mail should come (usually that means their mail servers).
+	  
+  If you use this plugin in RCPT, it will use the recipient address for an
+  extra check, which can set as acceptable some extra mails, where the 
+  recipient is one of your domains, and the sender is one of your secondary
+  MX servers.
+	  
+  The SPF functionality is from libspf2 [[http://www.libspf2.org]]
+  
+== REQUIREMENTS ==
+	
+  It will do lots of DNS checks, but they should be cached, so they only matter
+  once per source domain.
+	  
+  If your DNS is slow, this may give you latency problems.
+ 
+== CONFIGURATION ==
+
+  This plugin supports one configuration variable, BOUNCELEVEL, which should
+  be set to an integer value between -1 and 5.
+	  
+  - -1  means never reject a message. Useful for testing
+  
+  - 0  means reject on FAIL: the server says this mail is definitely coming from the wrong place
+	  
+  - 1  means reject on SOFTFAIL: it's wrong, but the server is in transition, so please be nice
+	  
+  - 2  means reject on NEUTRAL: It may be ok, it may not be, but we reject. This breaks the spec.
+	  
+  - 3  means reject on NONE: We are **demanding** SPF, kids. Probably breaks the spec too.
+	  
+  - 4  means reject on ERROR (TEMPERROR): There is probably a DNS error? This breaks the spec too.
+	  
+  - 5  means reject on UNKNOWN (PERMERROR): Oh, go to hell already! This setting breaks the spec too.
+  
+== LOGGING ==
+	
+  It will log the result of the SPF check, if possible with the descriptive comment provided by 
+  libspf2 [[http://www.libspf2.org]]:
+	  
+%%
+
+    spfchecks: pid 3400 - SPF_RESULT_PASS, No comments
+    spfchecks: pid 3401 - Rejecting on SPF_RESULT_SOFTFAIL
+    
+%%
+
+  Sadly sometimes libspf2 doesn't give too much info.
+
+== ERROR MESSAGES ==
+	
+  It can report a variety of messages to the sender, including:
+	  
+%%
+
+    550 Message rejected by server
+
+%%
+
+  The error messages for FAIL and SOFTFAIL are given by libspf2.
+	 
+%%
+
+    550 Please see http://spf.pobox.com/why.html?sender=ralsina@hotmail.com&ip=19.240.192.1&receiver=monty : Reason: mechanism
+    
+%%
+	 
+
+== BUGS ==
+	
+  - There is no support for giving a 450 temporary error on a temporary SPF error.
+	  
+  - There is no support for the SPF-received-by header
+
+== CODE ==
+
+- [[#spfchecks.c]]
+
+- [[#libspf2]]
+
+- [[#utils.h]]
+
+- [[#utils.c]]
+

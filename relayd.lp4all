@@ -1,0 +1,17 @@
+[@relayd@]
+
+=== RELAYD ===
+
+Relayd is a daemon that keeps account of when an IP connects to your service.
+
+Using that information, it can tell you if an IP address has 
+exceeded a configurable connection rate, thus letting you drop the 
+connection if, for example, it has connected more than 5 times in the last
+minute.
+
+This is used by the [[#ipthrottle]] plugin to create very nice
+adaptive connection throttling, which limits the damage
+caused by brute-force spammers and address testers.
+
+More information at Relayd's [[http://dizzy.roedu.net/relayd|homepage]]
+

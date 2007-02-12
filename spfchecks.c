@@ -1,4 +1,4 @@
-/*
+/*w [@spfchecks.c@]
 * Copyright (C) 2006 Roberto Alsina <ralsina@kde.org>
 *
 * Large portions copied and/or adapted from spf_example

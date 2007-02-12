@@ -1,4 +1,4 @@
-/*
+/*w [@ipthrottle.c@]
 * Copyright (C) 2006 Roberto Alsina <ralsina@kde.org>
 *
 * This program is free software; you can redistribute it and/or

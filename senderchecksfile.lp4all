@@ -1,0 +1,85 @@
+[@senderchecksfile@]
+
+=== SENDERCHECKSFILE ===
+
+  This plugin makes tests to the sender of mails, and should be used on the
+  MAIL command.
+
+  It will see if the sender is from a domain on this server, and if that is the case, it
+  will check that the account exists.
+  
+  To decide if a given address exists or not, this plugin reads the contents of 
+  a file (one address per line) and if it finds that exact address in it, it will
+  accept it as valid.
+  
+  Generating that file is not part of this plugin's job ;-)
+  
+  Therefore, your server will refuse to accept messages with forged senders in your own
+  domain.
+  
+  This helps you avoid problems like having your own domain whitelisted in spamassassin
+  and then letting spam in because it is sent using addresses in your own domain.
+  
+  It's pretty naive, but it can't do much harm, either.
+  
+  You can also give a file with a list of domains for which no checks should be done.
+  This is useful for domains for which you allow sending mail and have no way to verify the 
+  addresses validity, or domains that are not on vpopmail.
+ 
+  This plugin is new, so consider it alpha quality at best.
+ 
+== REQUIREMENTS ==
+
+  You must create the address list file. Also, you must test that the plugin
+  works correctly fr your setup!.
+  
+== CONFIGURATION ==
+
+  It can be configured by setting the following environment variables:
+
+  SENDERCHK_WLFILE is the name of a file containing a list of whitelisted domains
+  for which all addresses are assumed valid.
+  
+  SENDERCHK_ADDRFILE is the name of a file containing a list of whitelisted domains
+  for which all addresses are assumed valid.
+
+== LOGGING ==
+
+  It will log information about the sender:
+%%
+
+    senderchecks: pid 2729 - Accepted sender (test1@test.com)
+    senderchecks: pid 3474 - 501 sorry, no mailbox here by that name (test2@test.com)
+
+%%
+
+== ERROR MESSAGES ==
+
+  Mostly they look the same as the log entries:
+  
+%%
+
+    501 sorry, no mailbox here by that name (test2@test.com)
+
+%%
+
+== BUGS ==
+
+  There is surely some way qmail finds a local address we are not handling.
+  Maybe aliases, subaddresses, default addresses, assign files, whatever.
+
+
+== SEE ALSO ==
+
+- [[#senderchecks]]
+
+- [[#sendercheckscdb]]
+
+== CODE ==
+
+- [[#senderchecksfile.c]]
+
+- [[#utils.h]]
+
+- [[#utils.c]]
+

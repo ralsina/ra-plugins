@@ -1,0 +1,91 @@
+[@rcptchecks@]
+
+=== RCPTCHECKS ===
+
+  Warning: This plugin only makes sense if you are using vpopmail for all your domains.
+  If you don't, it will mess your delivery, and bounce massive amounts of mail (most of it).
+
+  The functionality and configuration is based on that of the chkuser patch from 
+  [[http://www.interazioni.it/opensource/chkuser/]]
+
+  This plugin makes some tests on the recipient of mails, and should be used on the
+  RCPT command.
+
+  - It will do some very basic validation of the recipient address, or will report
+    511 Invalid address (#5.1.1 - rcptchecks)
+
+  - It will only accept $CHKUSER_RCPTLIMIT recipients per message or report
+    571 sorry, reached maximum number of recipients for one session (#5.7.1 - rcptchecks)
+  
+  - It will only accept $CHKUSER_WRONGRCPTLIMIT wrong recipients per message or report
+    571 sorry, you are violating our security policies (#5.7.1 - rcptchecks)
+    Note that it will give that message **even if subsequent recipients are correct**.
+  
+    Keep in mind that by "wrong recipients" we mean recipients with domains in your
+    rcpthosts file who don't exist in your system.
+  
+  - It will bounce the message if the user is over his Maildir++ quota:
+    522 sorry, recipient mailbox is full (#5.2.2 - rcptchecks)
+    It will not handle system quotas or any other kind of quotas.
+ 
+  You can also give a file with a list of domains for which no checks should be done.
+  This is useful for domains for which you are secondary MX and have no way to verify the 
+  addresses validity, or domains that are not on vpopmail.
+
+== REQUIREMENTS ==
+
+  vpopmail. I repeat. Do NOT use this if you don't use vpopmail for all your domains.
+  Really. I mean it.
+
+  I will write the analogous plugin for non-vpopmail setups, but it doesn't
+  exist yet.
+  
+== CONFIGURATION ==
+
+  It can be configured by setting the following environment variables:
+	  
+  - CHKUSER_RCPTLIMIT  maximum number of recipients per message (default 10000)
+  
+  - CHKUSER_WRONGRCPTLIMIT  maximum number of wrong recipients per message (default 10000)
+  
+  - CHKUSER_MBXQUOTA  maximum percentage of accepted quota usage (default 100)
+  
+  - CHKUSER_WLFILE is the name of a file containing a list of whitelisted domains
+  for which all addresses are assumed valid.
+  
+== LOGGING ==
+
+  It will log information about each recipient::
+	  
+%%
+
+    rcptchecks: pid 2729 - Accepted recipient (test1@test.com number 3 of 20 )
+    rcptchecks: pid 3474 - 511 sorry, no mailbox here by that name (test2@test.com)
+    rcptchecks: pid 3457 - 522 sorry, recipient mailbox is full (test3@test.com)
+
+%%
+
+== ERROR MESSAGES ==
+
+  Mostly they look the same as the log entries:
+	  
+    511 sorry, no mailbox here by that name (test2@test.com)
+    522 sorry, recipient mailbox is full (test3@test.com)
+
+== BUGS ==
+
+  There is surely some way qmail finds a local address we are not handling.
+  Maybe aliases, subaddresses, default addresses, assign files, whatever.
+
+== CODE ==
+
+- [[#rcptchecks.c]]
+
+- [[#utils.h]]
+
+- [[#utils.c]]
+
+- [[#vpoputils.h]]
+
+- [[#vpoputils.c]]
+

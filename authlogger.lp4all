@@ -1,0 +1,32 @@
+[@authlogger@]
+
+=== AUTHLOGGER ===
+
+  This plugin is meant to be used on the AUTH command and all it does is log the user 
+  (see LOGGING)
+
+== REQUIREMENTS ==
+
+  None, but it makes no sense if your SMTP server doesn't support authentication.
+ 
+== CONFIGURATION ==
+
+  None.
+
+== LOGGING ==
+
+  It logs the authenticated user so you have more meaningful logs:
+	
+%%
+
+    authchecks: pid 4077 - authenticated as testuser
+
+%%
+
+== CODE ==
+
+- [[#authlogger.c]]
+
+- [[#utils.h]]
+
+- [[#utils.c]]

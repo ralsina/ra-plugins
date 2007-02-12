@@ -1,0 +1,80 @@
+[@tarpit@]
+
+=== TARPIT ===
+
+  This plugin lets you do tarpitting on your SMTP server.
+  
+  Tarpitting is a mechanism to slow down the incoming mail from prolific senders, by
+  inserting progressively larger delays after every RCPT.
+  
+  Sadly, the effectiveness of tarpitting has decreased, as spammers adapted by using 
+  multiple connections instead. Check the ipthrottle(8) plugin for a way to control
+  that.
+  
+  Anyway, it's probably a good idea to enable tarpitting. At least it should do 
+  no harm.
+  
+  This plugin should be used only on the RCPT command.
+ 
+== REQUIREMENTS ==
+
+  None. It may cause latency on sending mail, but that is the goal of the plugin ;-)
+ 
+== CONFIGURATION ==
+
+  You can set the TARPITCOUNT environment variable to set at which RCPT the tarpitting 
+  starts. It defaults to 50.
+
+  The TARPITDELAY environment variable can be set to a number, or the letters 
+  N (Normal), M (Medium) or H (Hard) and affects the way the delay increases.
+  It defaults to 2.
+
+  - Number  Delay each tarpitted recipient by this number of seconds.
+
+  - Normal  Delay each tarpitted recipient 2 seconds more than the previous one.
+
+  - Medium  Delay each tarpitted recipient 5 seconds more than the previous one.
+
+  - Hard  Delay is the square of the number of tarpitted recipients.
+
+  So, passing the TARPITCOUNT, they delay like this:
+
+  TARPITDELAY=2  2,2,2,2,2
+
+  TARPITDELAY=N  2,4,6,8,10
+
+  TARPITDELAY=M  5,10,15,20,25
+
+  TARPITDELAY=H  1,4,9,16,25,36,49
+
+  Obviously, setting TARPITDELAY to 0 disables tarpitting.
+
+== LOGGING ==
+
+  When the user crosses the tarpitting threshold, it will log:
+
+%%
+
+    tarpit: pid 5432 - Started tarpitting.
+
+%%
+
+== ERROR MESSAGES ==
+
+%%
+
+    Should never produce error messages.
+    
+%%
+
+== SEE ALSO ==
+
+- ipthrottle
+
+== CODE ==
+
+- [[#tarpit.c]]
+
+- [[#utils.h]]
+
+- [[#utils.c]]

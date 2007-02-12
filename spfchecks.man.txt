@@ -74,8 +74,9 @@ ERROR MESSAGES
 
 BUGS
 	
-  * There is no support for giving a 450 temporary error on a temprary SPF error.
-	  
+  * There is no support for giving a 450 temporary error on a temporary
+SPF error.
+
   * There is no support for the SPF-received-by header
 	 
 SEE ALSO
