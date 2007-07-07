@@ -19,9 +19,8 @@ START_TEST (test_mailservers_mx)
 {
   struct bstrList *list;
   int r = mailservers (bfromcstr ("netmanagers.com.ar"), &list);
-  fail_unless (r == 2
-               && biseq (list->entry[0], bfromcstr ("mx1.netmanagers.com.ar"))
-               && biseq (list->entry[1], bfromcstr ("mx1.lunix.com.ar")));
+  fail_unless (r == 1
+               && biseq (list->entry[0], bfromcstr ("mx1.netmanagers.com.ar")));
 
 }
 

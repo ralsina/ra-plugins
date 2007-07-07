@@ -1,0 +1,66 @@
+NAME
+
+  userthrottle 
+  
+DESCRIPTION
+
+  This plugin allows the administrator to rate limit the connections from each 
+  authenticated user.
+
+  Every time the plugin is called, it checks $SMTPAUTHUSER against a running relayd and,
+  if the configured rate is exceeded, it will terminate the connection after reporting
+  a temporary error:
+	  
+    421 Too many connections. Please reduce connections per minute.
+  
+  You could use this plugin in different ways, I am sure you can come up 
+  with others:
+	
+  * In the MAIL command, it lets you limit the mails per-user
+
+  * In the RCPT command, it lets you limit the recipients per-user
+  
+REQUIREMENTS
+
+  relayd (http://dizzy.roedu.net/relayd/) installed and running.
+ 
+  The performance impact should not be great, in fact it should lower your load,
+  since many address-testing spammers will be dropped, but try it and measure it 
+  yourself.
+ 
+CONFIGURATION
+
+  Since it uses relayd, you configure the rates by configuring relayd itself,
+  and you need to restart relayd whenever they change.
+
+  Here is an example /etc/relayd/user.rules:
+	
+    joe@aol.com:100,5 # joe@aol.com will be limited to 5 relays per 100 seconds
+    0.0.0.0/0:450,100 # default is 100 relays in 450 seconds
+
+LOGGING
+
+  If the configured rate is exceeded:
+  
+    userthrottle: pid 12345 - Rate exceeded per user (joe@aol.com)
+
+ERROR MESSAGES
+
+  Temporary error if rate exceeded:
+
+    421 Too many connections. Please reduce connections per minute.
+
+SEE ALSO
+
+  plugins-ra(8)
+
+  Homepage: http://ralsina.blogsite.org/stories/39.html
+
+AUTHOR
+
+  Copyright © 2006 Roberto Alsina <ralsina@kde.org>
+  
+  This is free software; see the source for copying conditions. There is
+  NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR
+  PURPOSE.
+

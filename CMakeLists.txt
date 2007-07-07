@@ -203,6 +203,18 @@ IF (LIB_RELAY)
   INSTALL (TARGETS ipthrottle DESTINATION ${QMAIL_PLUGIN_DIR})
 ENDIF(LIB_RELAY)
 
+###################################################################
+## userthrottle plugin
+## requires librelay (part of relayd)
+###################################################################
+
+FIND_LIBRARY(LIB_RELAY relay)
+IF (LIB_RELAY)
+  ADD_EXECUTABLE (userthrottle userthrottle.c utils.c ${BSTRLIB_SRCS})
+  TARGET_LINK_LIBRARIES (userthrottle relay)
+  INSTALL (TARGETS userthrottle DESTINATION ${QMAIL_PLUGIN_DIR})
+ENDIF(LIB_RELAY)
+
 ####################################################################
 ## checkback plugin
 ## requires udns, libsmtp, glib
