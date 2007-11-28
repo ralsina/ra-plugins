@@ -1,4 +1,4 @@
-/*w [@ipthrottle.c@]
+/*
 * Copyright (C) 2006 Roberto Alsina <ralsina@kde.org>
 *
 * This program is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@
 */
 
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <relay.h>
 #include "utils.h"
 
@@ -34,34 +35,48 @@ a given period of time.
 */
 
 int
-main ()
+    main ()
 {
-  pluginname = bfromcstr ("ipthrottle");
+    pluginname = bfromcstr ("ipthrottle");
 
-  bstring remoteip = envtostr ("TCPREMOTEIP");
+    bstring remoteip = envtostr ("TCPREMOTEIP");
+    bstring ipsvdir = envtostr ("IPSVDIR");
 
-  if (!remoteip)                //Should not happen
+    if (!remoteip)      //Should not happen
     {
-      _log (bfromcstr ("511 No IP address"));
-      exit (0);
+        _log (bfromcstr ("511 No IP address"));
+        exit (0);
     }
 
-  if (relayd_open () < 0)
+    if (relayd_open () < 0)
     {
-      _log (bfromcstr ("Can't connect to relayd"));
-      exit (0);
+        _log (bfromcstr ("Can't connect to relayd"));
+        exit (0);
     }
 
-  int result = relayd_check_ip (remoteip->data);
+    int result = relayd_check_ip (remoteip->data);
 
-  if (result == 0)              // Exceeding current rate for IP
+    if (result == 0)              // Exceeding current rate for IP
     {
-      printf
-        ("R421 Too many connections. Please reduce connections per minute.\n");
-      _log (bformat ("Rate exceeded per IP (%s)", remoteip->data));
+        printf
+            ("R421 Too many connections. Please reduce connections per minute. Blocking for 2 minutes.\n");
+        _log (bformat ("Rate exceeded per IP (%s)", remoteip->data));
+        // If IPSVDIR is set, and there is no ipsvd file for this IP, block it.
+        if (ipsvdir && ipsvdir->data))
+        {
+          bstring path=bformat("%s/%s",ipsvdir->data,remoteip->data);
+          struct stat st;
+          if (0==stat(path->data,&st))
+          {
+            _log (bformat ("Blocked %s", remoteip->data));
+            int f=open (path->data);
+            close(f);
+            chmod (path->data,S_IWUSR);
+          }
+        }
     }
-  relayd_ack ("", remoteip->data);
-  relayd_commit ();
-  relayd_close ();
-  exit (0);
+    relayd_ack ("", remoteip->data);
+    relayd_commit ();
+    relayd_close ();
+    exit (0);
 }
