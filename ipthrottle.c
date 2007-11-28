@@ -66,7 +66,7 @@ int
         {
           bstring path=bformat("%s/%s",ipsvdir->data,remoteip->data);
           struct stat st;
-          if (0==stat(path->data,&st))
+          if (-1==stat(path->data,&st))
           {
             _log (bformat ("Blocked %s", remoteip->data));
             int f=open (path->data);
