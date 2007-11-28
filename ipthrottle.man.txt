@@ -21,6 +21,13 @@ DESCRIPTION
 
   * In the RCPT command, it lets you limit the recipients per-ip
   
+  If you are using ipsvd-enabled tools like tcpsvd (a tcpserver replacement),
+  and are using the -i option, ipthrottle will automatically block whatever IP
+  is connecting too fast, and yu should enable the -t option to auto-unblock 
+  them.
+  
+  If that made no sense to you, read the tcpsvd manual.
+  
 REQUIREMENTS
 
   relayd (http://dizzy.roedu.net/relayd/) installed and running.
