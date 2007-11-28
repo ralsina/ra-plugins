@@ -62,7 +62,7 @@ int
             ("R421 Too many connections. Please reduce connections per minute. Blocking for 2 minutes.\n");
         _log (bformat ("Rate exceeded per IP (%s)", remoteip->data));
         // If IPSVDIR is set, and there is no ipsvd file for this IP, block it.
-        if (ipsvdir && ipsvdir->data))
+        if (ipsvdir && ipsvdir->data)
         {
           bstring path=bformat("%s/%s",ipsvdir->data,remoteip->data);
           struct stat st;
