@@ -1,5 +1,6 @@
+cmake_minimum_required(VERSION 2.0)
 PROJECT (ra-plugins)
-SET (VERSION "0.2.9" )
+SET (VERSION "0.2.10" )
 # SET (CMAKE_VERBOSE_MAKEFILE ON)
 
 ####################################################################
@@ -190,6 +191,22 @@ ENDIF (LIB_SPF2)
 
 ADD_EXECUTABLE (tarpit tarpit.c utils.c ${BSTRLIB_SRCS})
 INSTALL (TARGETS tarpit DESTINATION ${QMAIL_PLUGIN_DIR})
+
+####################################################################
+## dotblind plugin
+## requires nothing
+####################################################################
+
+ADD_EXECUTABLE (dotblind dotblind.c utils.c ${BSTRLIB_SRCS})
+INSTALL (TARGETS dotblind DESTINATION ${QMAIL_PLUGIN_DIR})
+
+####################################################################
+## plusaliases plugin
+## requires nothing
+####################################################################
+
+ADD_EXECUTABLE (plusaliases plusaliases.c utils.c ${BSTRLIB_SRCS})
+INSTALL (TARGETS plusaliases DESTINATION ${QMAIL_PLUGIN_DIR})
 
 ###################################################################
 ## ipthrottle plugin

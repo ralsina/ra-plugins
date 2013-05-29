@@ -1,0 +1,55 @@
+NAME
+
+  plusaliases
+
+DESCRIPTION
+
+  Support on-the-fly aliases ala Gmail's plus sign trick.
+
+  Often times users want quick throw away e-mail addresses that still get
+  delivered to their account. Or they want a way to track what websites
+  are spamming them.
+
+  e.g. Register vapier+website.com@wh0rd.org and have it delivered to
+  vapier@wh0rd.org automatically.
+
+  This plugin should be used only on the RCPT command.
+
+  This plugin should show up before the dotblind(8) plugin in the pathological
+  case where the strip char and split char sets overlap.
+
+REQUIREMENTS
+
+  None.
+ 
+CONFIGURATION
+
+  You can set the PLUSALIASESCHARS environment variable to control the set
+  of characters which act as delimiters for aliases. It defaults to "+".
+
+  If you set more than one character, each is allowed to be a splitter.
+  A setting of PLUSALIASESCHARS="+!#" will result in:
+
+  vapier!moo@wh0rd.org -> vapier@wh0rd.org
+
+  vapier+cow@wh0rd.org -> vapier@wh0rd.org
+
+  vapier!moo+cow#fart@wh0rd.org -> vapier@wh0rd.org
+
+LOGGING
+
+  None.
+
+ERROR MESSAGES
+
+  Should never produce error messages.
+
+SEE ALSO
+
+  plugins-ra(8), dotblind(8)
+
+  Homepage: http://ralsina.blogsite.org/stories/39.html
+
+COPYRIGHT
+
+  Copyright 2013 Mike Frysinger <vapier@gentoo.org>
