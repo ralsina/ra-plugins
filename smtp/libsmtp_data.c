@@ -26,11 +26,8 @@ Thu Aug 16 2001 */
 
 #include <glib.h>
 
-
 #include "libsmtp.h"
 
-#include <stdlib.h>
-#include <string.h>
 
 /* This function returns a pointer to an allocated libsmtp_session_struct
    All GStrings are initialized. */

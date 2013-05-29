@@ -29,9 +29,7 @@ Thu Aug 16 2001 */
 /* #endif */
 
 #include "libsmtp.h"
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+
 #include <time.h>
 
 /* internal communication functions */

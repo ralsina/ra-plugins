@@ -27,8 +27,6 @@ Thu Aug 16 2001 */
 
 #include "libsmtp.h"
 
-#include <stdio.h>
-
 #ifdef WITH_MIME
   #include "libsmtp_mime.h"
 #endif
