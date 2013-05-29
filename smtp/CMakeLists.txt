@@ -1,4 +1,7 @@
-cmake_minimum_required(VERSION 2.0)
+cmake_minimum_required(VERSION 2.6.2)
+if(POLICY CMP0015)
+   cmake_policy(SET CMP0015 OLD)
+endif(POLICY CMP0015)
 PROJECT (smtp)
 INCLUDE (FindGTK)
 find_package(PkgConfig REQUIRED)
